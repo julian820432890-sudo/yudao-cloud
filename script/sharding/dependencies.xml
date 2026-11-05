@@ -3,8 +3,8 @@
     分库分表（ShardingSphere-JDBC 5.5.3）的 Maven 依赖片段，不是 Maven 工程，不参与项目构建。
 
     使用时，将下面的 <dependency> 复制到【最终打包启动】模块的 pom.xml 的 <dependencies> 中：
-      - 单体项目：yudao-server/pom.xml
-      - 微服务项目：分库分表所在服务的 pom.xml，例如说 yudao-module-infra/yudao-module-infra-server/pom.xml
+      - 单体项目：antian-server/pom.xml
+      - 微服务项目：分库分表所在服务的 pom.xml，例如说 antian-module-infra/antian-module-infra-server/pom.xml
 
     复制「1. 所有分支都需要」，再按项目所在分支，从「2.」「3.」中【只选一段】SnakeYAML，两段不能同时添加。
 

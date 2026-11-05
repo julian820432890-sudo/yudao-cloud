@@ -18,17 +18,17 @@ dataSources:
   ds_0:
     dataSourceClassName: com.zaxxer.hikari.HikariDataSource
     driverClassName: com.mysql.cj.jdbc.Driver
-    jdbcUrl: $${YUDAO_SHARDING_DS0_URL::jdbc:mysql://127.0.0.1:3306/yudao_sharding_0?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true&rewriteBatchedStatements=true}
-    username: $${YUDAO_SHARDING_DS0_USERNAME::root}
-    password: '$${YUDAO_SHARDING_DS0_PASSWORD::}'
+    jdbcUrl: $${ANTIAN_SHARDING_DS0_URL::jdbc:mysql://127.0.0.1:3306/yudao_sharding_0?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true&rewriteBatchedStatements=true}
+    username: $${ANTIAN_SHARDING_DS0_USERNAME::root}
+    password: '$${ANTIAN_SHARDING_DS0_PASSWORD::}'
     minimumIdle: 1
     maximumPoolSize: 10 # 不能小于 sharding 数据源的 hikari.maximum-pool-size
   ds_1:
     dataSourceClassName: com.zaxxer.hikari.HikariDataSource
     driverClassName: com.mysql.cj.jdbc.Driver
-    jdbcUrl: $${YUDAO_SHARDING_DS1_URL::jdbc:mysql://127.0.0.1:3306/yudao_sharding_1?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true&rewriteBatchedStatements=true}
-    username: $${YUDAO_SHARDING_DS1_USERNAME::root}
-    password: '$${YUDAO_SHARDING_DS1_PASSWORD::}'
+    jdbcUrl: $${ANTIAN_SHARDING_DS1_URL::jdbc:mysql://127.0.0.1:3306/yudao_sharding_1?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true&rewriteBatchedStatements=true}
+    username: $${ANTIAN_SHARDING_DS1_USERNAME::root}
+    password: '$${ANTIAN_SHARDING_DS1_PASSWORD::}'
     minimumIdle: 1
     maximumPoolSize: 10 # 不能小于 sharding 数据源的 hikari.maximum-pool-size
 

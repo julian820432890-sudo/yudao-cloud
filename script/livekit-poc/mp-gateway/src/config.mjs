@@ -6,7 +6,7 @@
  * LiveKit 返回的 EgressInfo 会把 RTMP 地址最后一段（流名与查询参数）脱敏，只剩 scheme / host / port / app 可信，
  * 启动回收据此识别本网关的残留 Egress，因此该 app 只能给网关使用
  */
-export const GATEWAY_SRS_APP_PATTERN = /^yudao-mp-gw(?:-[\w-]+)?$/
+export const GATEWAY_SRS_APP_PATTERN = /^antian-mp-gw(?:-[\w-]+)?$/
 
 /**
  * 读取整数配置
@@ -79,11 +79,11 @@ export function loadConfig(env = process.env) {
   if (env.MP_GATEWAY_ENABLED !== 'true') {
     throw new Error('MP_GATEWAY_ENABLED 未设置为 true：小程序网关为默认关闭的试验功能')
   }
-  const srsPublishBaseUrl = readUrl(env, 'MP_GATEWAY_SRS_PUBLISH_BASE_URL', 'rtmp://127.0.0.1:1936/yudao-mp-gw', ['rtmp:'])
-  const srsPlayBaseUrl = readUrl(env, 'MP_GATEWAY_SRS_PLAY_BASE_URL', 'rtmp://127.0.0.1:1936/yudao-mp-gw', ['rtmp:'])
+  const srsPublishBaseUrl = readUrl(env, 'MP_GATEWAY_SRS_PUBLISH_BASE_URL', 'rtmp://127.0.0.1:1936/antian-mp-gw', ['rtmp:'])
+  const srsPlayBaseUrl = readUrl(env, 'MP_GATEWAY_SRS_PLAY_BASE_URL', 'rtmp://127.0.0.1:1936/antian-mp-gw', ['rtmp:'])
   const srsApp = new URL(srsPublishBaseUrl).pathname.replace(/^\/+/, '')
   if (!GATEWAY_SRS_APP_PATTERN.test(srsApp) || new URL(srsPlayBaseUrl).pathname.replace(/^\/+/, '') !== srsApp) {
-    throw new Error('MP_GATEWAY_SRS_PUBLISH_BASE_URL 与 MP_GATEWAY_SRS_PLAY_BASE_URL 需使用同一个网关专用 app（yudao-mp-gw 或 yudao-mp-gw-<后缀>）')
+    throw new Error('MP_GATEWAY_SRS_PUBLISH_BASE_URL 与 MP_GATEWAY_SRS_PLAY_BASE_URL 需使用同一个网关专用 app（antian-mp-gw 或 antian-mp-gw-<后缀>）')
   }
   const pollIntervalMs = readInt(env, 'MP_GATEWAY_POLL_INTERVAL_MS', 2000, 500, 10000)
   return Object.freeze({

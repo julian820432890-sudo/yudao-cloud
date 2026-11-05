@@ -4,8 +4,8 @@
 # 全部服务使用 host 网络：Ingress / Egress 作为 WebRTC 客户端连接 LiveKit 广播的 node_ip（127.0.0.1），
 # 端口映射模式下容器内的 127.0.0.1 不是 LiveKit；macOS 需 Docker Desktop 4.34+ 并开启 Settings → Resources → Network → Enable host networking
 #
-# 凭据通过同目录 .env 提供（参考 .env.example），必须与后端 yudao.im.rtc.api-key / api-secret 一致
-name: yudao-livekit-mp-gateway
+# 凭据通过同目录 .env 提供（参考 .env.example），必须与后端 antian.im.rtc.api-key / api-secret 一致
+name: antian-livekit-mp-gateway
 
 services:
   redis:
@@ -124,8 +124,8 @@ services:
       MP_GATEWAY_LIVEKIT_API_KEY: ${LIVEKIT_API_KEY}
       MP_GATEWAY_LIVEKIT_API_SECRET: ${LIVEKIT_API_SECRET}
       # SRS 主机与端口固定为本 compose 内的实例，只允许通过 MP_GATEWAY_SRS_APP 调整专用 app 后缀
-      MP_GATEWAY_SRS_PUBLISH_BASE_URL: rtmp://127.0.0.1:1936/${MP_GATEWAY_SRS_APP:-yudao-mp-gw}
-      MP_GATEWAY_SRS_PLAY_BASE_URL: rtmp://${MP_SRS_PLAY_PUBLIC_HOST:-127.0.0.1}:1936/${MP_GATEWAY_SRS_APP:-yudao-mp-gw}
+      MP_GATEWAY_SRS_PUBLISH_BASE_URL: rtmp://127.0.0.1:1936/${MP_GATEWAY_SRS_APP:-antian-mp-gw}
+      MP_GATEWAY_SRS_PLAY_BASE_URL: rtmp://${MP_SRS_PLAY_PUBLIC_HOST:-127.0.0.1}:1936/${MP_GATEWAY_SRS_APP:-antian-mp-gw}
       # 以下可调参数未配置时为空串，由网关按 README 默认值处理
       MP_GATEWAY_POLL_INTERVAL_MS: ${MP_GATEWAY_POLL_INTERVAL_MS:-}
       MP_GATEWAY_LEASE_TTL_MS: ${MP_GATEWAY_LEASE_TTL_MS:-}

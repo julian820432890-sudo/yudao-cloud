@@ -2,7 +2,7 @@
 # 使用说明见同目录 README.md；需 Docker Compose V2.20.2 及以上（docker compose 命令）
 # 本文件中的相对路径，均相对于本文件所在目录，与执行命令时的当前目录无关
 
-name: yudao-cloud
+name: antian-cloud
 
 # 所有 Java 服务共用：profile、JVM 参数、Nacos 注册中心 + 配置中心
 x-common-env: &common-env
@@ -21,10 +21,10 @@ x-app-env: &app-env
   <<: *common-env
   # 数据库：主库、从库都要覆盖，否则会使用 application-${SPRING_PROFILES_ACTIVE}.yaml 中的 127.0.0.1
   SPRING_DATASOURCE_DYNAMIC_DATASOURCE_MASTER_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE:-ruoyi-vue-pro}?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true&rewriteBatchedStatements=true
-  SPRING_DATASOURCE_DYNAMIC_DATASOURCE_MASTER_USERNAME: ${MYSQL_USER:-yudao}
+  SPRING_DATASOURCE_DYNAMIC_DATASOURCE_MASTER_USERNAME: ${MYSQL_USER:-antian}
   SPRING_DATASOURCE_DYNAMIC_DATASOURCE_MASTER_PASSWORD: ${MYSQL_PASSWORD}
   SPRING_DATASOURCE_DYNAMIC_DATASOURCE_SLAVE_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE:-ruoyi-vue-pro}?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true&rewriteBatchedStatements=true
-  SPRING_DATASOURCE_DYNAMIC_DATASOURCE_SLAVE_USERNAME: ${MYSQL_USER:-yudao}
+  SPRING_DATASOURCE_DYNAMIC_DATASOURCE_SLAVE_USERNAME: ${MYSQL_USER:-antian}
   SPRING_DATASOURCE_DYNAMIC_DATASOURCE_SLAVE_PASSWORD: ${MYSQL_PASSWORD}
   # Redis：Spring Boot 3.x 使用 spring.data.redis.*
   SPRING_DATA_REDIS_HOST: redis
@@ -33,7 +33,7 @@ x-app-env: &app-env
   # application-dev.yaml 默认连接 127.0.0.1:9090 的 XXL-Job 调度中心，入门部署不提供，关闭执行器
   XXL_JOB_ENABLED: "false"
   # application-dev.yaml 默认开启演示模式（禁止写操作），这里关闭
-  YUDAO_DEMO: "false"
+  ANTIAN_DEMO: "false"
 
 services:
   mysql:
@@ -46,7 +46,7 @@ services:
       TZ: Asia/Shanghai
       MYSQL_DATABASE: ${MYSQL_DATABASE:-ruoyi-vue-pro}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?请在 .env 中设置 MYSQL_ROOT_PASSWORD}
-      MYSQL_USER: ${MYSQL_USER:-yudao}
+      MYSQL_USER: ${MYSQL_USER:-antian}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:?请在 .env 中设置 MYSQL_PASSWORD}
     volumes:
       - mysql-data:/var/lib/mysql
@@ -116,10 +116,10 @@ services:
       start_period: 30s
 
   gateway:
-    # 使用模块自带的 Dockerfile，需先在源码根目录执行 mvn 打包，生成 yudao-gateway/target/yudao-gateway.jar
+    # 使用模块自带的 Dockerfile，需先在源码根目录执行 mvn 打包，生成 antian-gateway/target/antian-gateway.jar
     build:
-      context: ../../yudao-gateway
-    image: yudao-gateway:${IMAGE_TAG:-local}
+      context: ../../antian-gateway
+    image: antian-gateway:${IMAGE_TAG:-local}
     restart: unless-stopped
     environment:
       <<: *common-env
@@ -136,13 +136,13 @@ services:
 
   system-server:
     build:
-      context: ../../yudao-module-system/yudao-module-system-server
-    image: yudao-module-system-server:${IMAGE_TAG:-local}
+      context: ../../antian-module-system/antian-module-system-server
+    image: antian-module-system-server:${IMAGE_TAG:-local}
     restart: unless-stopped
     environment:
       <<: *app-env
       # 需与前端打包时的 VITE_APP_CAPTCHA_ENABLE 一致
-      YUDAO_CAPTCHA_ENABLE: ${YUDAO_CAPTCHA_ENABLE:-true}
+      ANTIAN_CAPTCHA_ENABLE: ${ANTIAN_CAPTCHA_ENABLE:-true}
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:
@@ -156,8 +156,8 @@ services:
 
   infra-server:
     build:
-      context: ../../yudao-module-infra/yudao-module-infra-server
-    image: yudao-module-infra-server:${IMAGE_TAG:-local}
+      context: ../../antian-module-infra/antian-module-infra-server
+    image: antian-module-infra-server:${IMAGE_TAG:-local}
     restart: unless-stopped
     environment:
       <<: *app-env

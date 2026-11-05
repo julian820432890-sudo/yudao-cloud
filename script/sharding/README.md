@@ -7,17 +7,17 @@
 安装、配置、启动验证及使用限制，请阅读项目文档《分库分表》，本文只列出材料及分支适用范围：
 
 - 单体项目 ruoyi-vue-pro：<https://doc.iocoder.cn/sharding/>
-- 微服务项目 yudao-cloud：<https://cloud.iocoder.cn/sharding/>
+- 微服务项目 antian-cloud：<https://cloud.iocoder.cn/sharding/>
 
 ## 1. 材料清单
 
 | 文件 | 说明 | 单体项目的目标位置 | 微服务项目的目标位置 |
 | --- | --- | --- | --- |
 | `sql/mysql/demo_sharding_order.sql` | 创建 2 个物理库、4 张物理表 | 在 MySQL 中执行 | 在 MySQL 中执行 |
-| `dependencies.xml` | Maven 依赖片段 | `yudao-server/pom.xml` | 服务的 `pom.xml`，例如 `yudao-module-infra-server/pom.xml` |
-| `dynamic-datasource.yaml` | `sharding` 数据源配置片段 | `yudao-server` 的 `application-{profile}.yaml` | 服务的 `application-{profile}.yaml` 或 Nacos 配置 |
-| `src/main/resources/sharding/sharding.yaml` | ShardingSphere 分片规则 | `yudao-module-infra/src/main/resources` | `yudao-module-infra-server/src/main/resources` |
-| `src/main/java/.../shardingdemo/` | 示例 DO、Mapper、Service | `yudao-module-infra/src/main/java` | `yudao-module-infra-server/src/main/java` |
+| `dependencies.xml` | Maven 依赖片段 | `antian-server/pom.xml` | 服务的 `pom.xml`，例如 `antian-module-infra-server/pom.xml` |
+| `dynamic-datasource.yaml` | `sharding` 数据源配置片段 | `antian-server` 的 `application-{profile}.yaml` | 服务的 `application-{profile}.yaml` 或 Nacos 配置 |
+| `src/main/resources/sharding/sharding.yaml` | ShardingSphere 分片规则 | `antian-module-infra/src/main/resources` | `antian-module-infra-server/src/main/resources` |
+| `src/main/java/.../shardingdemo/` | 示例 DO、Mapper、Service | `antian-module-infra/src/main/java` | `antian-module-infra-server/src/main/java` |
 
 ## 2. 分支适用范围
 

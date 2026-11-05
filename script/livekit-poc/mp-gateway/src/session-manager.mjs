@@ -4,13 +4,13 @@ import { setTimeout as delay } from 'node:timers/promises'
 import { GATEWAY_SRS_APP_PATTERN } from './config.mjs'
 import { LiveKitApiError } from './livekit-api.mjs'
 
-const RESOURCE_PREFIX = 'yudao-mp-gw-' // 网关创建的 Ingress 名称前缀；单实例启动时据此回收残留
+const RESOURCE_PREFIX = 'antian-mp-gw-' // 网关创建的 Ingress 名称前缀；单实例启动时据此回收残留
 const USER_IDENTITY_PATTERN = /^[1-9]\d{0,18}$/ // 业务参与者 identity：数字 userId
 const EXCLUDED_KINDS = new Set(['EGRESS', 'AGENT', 'SIP']) // 非业务参与者类型；其它小程序成员的 INGRESS 属于业务参与者
 const EGRESS_LIST_GRACE_MS = 10000 // 新建 Egress 在活跃列表中可见前的宽限期
 const SESSION_ID_PATTERN = /^[0-9a-f]{32}$/ // 会话编号格式
-const STREAM_PREFIX = 'yudaompgw_' // 网关推往 SRS 的流名前缀
-const STREAM_NAME_PATTERN = /^yudaompgw_[0-9a-f]{12}_[1-9]\d{0,18}_[0-9a-f]{16}$/ // 网关流名完整格式
+const STREAM_PREFIX = 'antianmpgw_' // 网关推往 SRS 的流名前缀
+const STREAM_NAME_PATTERN = /^antianmpgw_[0-9a-f]{12}_[1-9]\d{0,18}_[0-9a-f]{16}$/ // 网关流名完整格式
 const RELEASE_CONCURRENCY = 4 // 定期重试时同时进行的释放尝试上限
 const SHUTDOWN_RELEASE_RETRY_MS = 500 // 退出时释放失败后的重试间隔；整体时长由入口的退出超时兜底
 const REDACTED_STREAM_PATTERN = /^\{yud\.\.\.[\w-]{3}\}$/ // LiveKit 脱敏后的网关流名：首 3 位 + ... + 末 3 位（末位来自推流密钥）

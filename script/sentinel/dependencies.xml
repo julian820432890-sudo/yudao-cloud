@@ -3,7 +3,7 @@
     服务保障（Sentinel）的 Maven 依赖片段，不是 Maven 工程，不参与项目构建。
 
     按服务分为两段，复制到对应服务的 pom.xml 的 <dependencies> 中：
-      - 第 1 段：gateway-server（yudao-gateway/pom.xml）、system-server（yudao-module-system/yudao-module-system-server/pom.xml）都要添加
+      - 第 1 段：gateway-server（antian-gateway/pom.xml）、system-server（antian-module-system/antian-module-system-server/pom.xml）都要添加
       - 第 2 段：只添加到 gateway-server
     示例的 infra-server 只提供被调用的 RPC 接口，不需要添加。
 

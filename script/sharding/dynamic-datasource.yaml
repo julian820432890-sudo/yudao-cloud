@@ -1,7 +1,7 @@
 # 分库分表的 sharding 数据源配置片段，不能直接作为配置文件使用。
 # 将 sharding 合并到已有的 spring.datasource.dynamic.datasource 下，与 master、slave 同级，其它配置保持不变：
-#   - 单体项目：yudao-server 的 application-{profile}.yaml
-#   - 微服务项目：对应服务（例如说 yudao-module-infra-server）的 application-{profile}.yaml，或者 Nacos 中该服务的配置
+#   - 单体项目：antian-server 的 application-{profile}.yaml
+#   - 微服务项目：对应服务（例如说 antian-module-infra-server）的 application-{profile}.yaml，或者 Nacos 中该服务的配置
 spring:
   datasource:
     dynamic:

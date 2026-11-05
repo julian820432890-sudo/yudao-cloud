@@ -40,14 +40,14 @@
 ```bash
 cd script/livekit-poc/mp-gateway
 docker compose -f ../docker-compose.yml down   # 停掉 LiveKit-only PoC
-cp .env.example .env                           # 填写与后端 yudao.im.rtc.api-key / api-secret 一致的凭据，MP_GATEWAY_ENABLED=true
+cp .env.example .env                           # 填写与后端 antian.im.rtc.api-key / api-secret 一致的凭据，MP_GATEWAY_ENABLED=true
 docker compose up -d
 docker compose logs -f mp-gateway              # 看到「小程序网关已启动（试验功能）」
 curl -s http://127.0.0.1:8090/healthz          # {"status":"ok"}
 ```
 
 - 全部服务使用 `network_mode: host`。macOS 需 Docker Desktop 4.34+，并在 Settings → Resources → Network 勾选「Enable host networking」，否则容器能启动但端口不通。
-- 后端 `yudao.im.rtc.livekit-url` 仍为 `ws://127.0.0.1:7880`；webhook 默认回调 `http://127.0.0.1:48080/admin-api/im/livekit/webhook`。
+- 后端 `antian.im.rtc.livekit-url` 仍为 `ws://127.0.0.1:7880`；webhook 默认回调 `http://127.0.0.1:48080/admin-api/im/livekit/webhook`。
 - 本机端口：LiveKit 7880 / 7881 / 7882udp，Ingress RTMP 1935、WHIP 18080、relay 19090、UDP 7885，Egress 健康检查 18082，SRS 1936，Redis 16379，网关 8090 / 8091。LiveKit HTTP、SRS、Redis、网关默认只监听回环；**Ingress RTMP 与 LiveKit 媒体端口会监听所有网卡**（推流靠一次性 stream key 鉴权），在不可信局域网中请配合防火墙。
 
 ### 3.1 用 FFmpeg 模拟小程序
@@ -85,7 +85,7 @@ curl -s http://127.0.0.1:8090/healthz          # {"status":"ok"}
 | `MP_GATEWAY_HOOK_HOST` / `_PORT` | `127.0.0.1` / `8091` | SRS 回调，只允许 SRS 访问 |
 | `MP_GATEWAY_LIVEKIT_HTTP_URL` | `http://127.0.0.1:7880` | LiveKit API 地址 |
 | `MP_GATEWAY_LIVEKIT_API_KEY` / `_SECRET` | 必填 | 与后端一致；secret 至少 32 位 |
-| `MP_GATEWAY_SRS_PUBLISH_BASE_URL` | `rtmp://127.0.0.1:1936/yudao-mp-gw` | Egress 推到 SRS 的内部地址；app 必须为网关专用的 `yudao-mp-gw` 或 `yudao-mp-gw-<后缀>`，否则拒绝启动 |
+| `MP_GATEWAY_SRS_PUBLISH_BASE_URL` | `rtmp://127.0.0.1:1936/antian-mp-gw` | Egress 推到 SRS 的内部地址；app 必须为网关专用的 `antian-mp-gw` 或 `antian-mp-gw-<后缀>`，否则拒绝启动 |
 | `MP_GATEWAY_SRS_PLAY_BASE_URL` | 同上 | 小程序拉流的外部地址，app 需与推流一致 |
 | `MP_GATEWAY_POLL_INTERVAL_MS` | `2000` | 建议轮询间隔，也是网关同步房间的间隔 |
 | `MP_GATEWAY_LEASE_TTL_MS` | `20000` | 租约，至少 3 倍轮询间隔；超时未查询即释放 |
@@ -105,7 +105,7 @@ curl -s http://127.0.0.1:8090/healthz          # {"status":"ok"}
 
 - **compose 固定、`.env` 不生效**：`MP_GATEWAY_API_PORT=8090`、`MP_GATEWAY_HOOK_HOST=127.0.0.1`、`MP_GATEWAY_HOOK_PORT=8091`、`MP_GATEWAY_LIVEKIT_HTTP_URL=http://127.0.0.1:7880`，与 `srs.conf` 及 compose 内各服务端口一一对应。
 - **改名转发**：LiveKit 凭据读取 `.env` 的 `LIVEKIT_API_KEY` / `LIVEKIT_API_SECRET`（同时供 LiveKit、Ingress、Egress 使用），写 `MP_GATEWAY_LIVEKIT_API_KEY` / `_SECRET` 不生效。
-- **由 compose 变量拼出**：`MP_GATEWAY_SRS_PUBLISH_BASE_URL` 固定为 `rtmp://127.0.0.1:1936/<app>`，`MP_GATEWAY_SRS_PLAY_BASE_URL` 为 `rtmp://<MP_SRS_PLAY_PUBLIC_HOST>:1936/<app>`；`<app>` 取 `MP_GATEWAY_SRS_APP`（默认 `yudao-mp-gw`），`MP_SRS_PLAY_PUBLIC_HOST` 默认 `127.0.0.1`。
+- **由 compose 变量拼出**：`MP_GATEWAY_SRS_PUBLISH_BASE_URL` 固定为 `rtmp://127.0.0.1:1936/<app>`，`MP_GATEWAY_SRS_PLAY_BASE_URL` 为 `rtmp://<MP_SRS_PLAY_PUBLIC_HOST>:1936/<app>`；`<app>` 取 `MP_GATEWAY_SRS_APP`（默认 `antian-mp-gw`），`MP_SRS_PLAY_PUBLIC_HOST` 默认 `127.0.0.1`。
 - **原样转发**：`MP_GATEWAY_ENABLED`（默认 `false`）、`MP_GATEWAY_API_HOST`（默认 `127.0.0.1`），以及从 `MP_GATEWAY_POLL_INTERVAL_MS` 到 Egress 编码的其余可调参数，未配置即用上表默认值（见 `.env.example`）。
 
 ## 5. 会话 API
@@ -144,7 +144,7 @@ curl -s http://127.0.0.1:8090/healthz          # {"status":"ok"}
   "status": "active",
   "publishing": true,
   "remotes": [
-    { "userId": 2, "state": "ready", "ready": true, "playUrl": "rtmp://host:1936/yudao-mp-gw/<stream>?token=<拉流凭证>", "hasAudio": true, "hasVideo": true, "videoVisible": true }
+    { "userId": 2, "state": "ready", "ready": true, "playUrl": "rtmp://host:1936/antian-mp-gw/<stream>?token=<拉流凭证>", "hasAudio": true, "hasVideo": true, "videoVisible": true }
   ],
   "error": null,
   "leaseTtlMs": 20000,
@@ -189,8 +189,8 @@ curl -s http://127.0.0.1:8090/healthz          # {"status":"ok"}
 
 ### 7.1 启动回收与专用 SRS app
 
-- LiveKit 返回的 EgressInfo 会把 RTMP 地址最后一段（流名 + 查询参数）脱敏为 `{首 3 位...末 3 位}`，例如 `rtmp://127.0.0.1:1936/yudao-mp-gw/{yud...xyz}`，只有 scheme / host / port / app 可信。因此**网关用专用 app 标识归属**：`yudao-mp-gw`（或 `yudao-mp-gw-<后缀>`）只能给网关使用。
-- 网关启动后先回收残留：删除名称前缀为 `yudao-mp-gw-` 的 Ingress；停止输出地址为「`MP_GATEWAY_SRS_PUBLISH_BASE_URL`/单段流名」且流名为完整网关流名或 `{yud...xxx}` 脱敏形式的活跃 Egress。其它 app（如 `live`）下的 Egress 不受影响。
+- LiveKit 返回的 EgressInfo 会把 RTMP 地址最后一段（流名 + 查询参数）脱敏为 `{首 3 位...末 3 位}`，例如 `rtmp://127.0.0.1:1936/antian-mp-gw/{yud...xyz}`，只有 scheme / host / port / app 可信。因此**网关用专用 app 标识归属**：`antian-mp-gw`（或 `antian-mp-gw-<后缀>`）只能给网关使用。
+- 网关启动后先回收残留：删除名称前缀为 `antian-mp-gw-` 的 Ingress；停止输出地址为「`MP_GATEWAY_SRS_PUBLISH_BASE_URL`/单段流名」且流名为完整网关流名或 `{yud...xxx}` 脱敏形式的活跃 Egress。其它 app（如 `live`）下的 Egress 不受影响。
 - 回收任一步失败都会按 `MP_GATEWAY_CLEANUP_RETRY_MS` 后台重试；完成前 `/healthz` 与创建会话返回 `503 cleanup_pending`，避免旧残留与新会话并存。
 - `srs.conf` 的 HTTP 回调对整个 vhost 生效，网关会拒绝非专用 app 与未知流名的推流 / 播放，所以 SRS 需**独占一个实例或 vhost**，不要与其它直播业务共用。
 - 已经建立的 RTMP 连接不会因网关重启而重新鉴权；残留 Egress 停止后其推流断开，播放端随之断流。
@@ -200,7 +200,7 @@ curl -s http://127.0.0.1:8090/healthz          # {"status":"ok"}
 LiveKit 长时间不可用、回收一直失败时，网关会持续返回 `cleanup_pending`，不会自行放行。恢复步骤：
 
 1. `docker compose stop mp-gateway`；
-2. 通过 LiveKit API（`ListIngress`）删除名称前缀为 `yudao-mp-gw-` 的 Ingress；
+2. 通过 LiveKit API（`ListIngress`）删除名称前缀为 `antian-mp-gw-` 的 Ingress；
 3. 通过 `ListEgress`（active）停止输出地址以 `MP_GATEWAY_SRS_PUBLISH_BASE_URL/` 开头的 Egress；
 4. `docker compose restart srs`，断开 SRS 上残留的推流与播放连接；
 5. `docker compose start mp-gateway`，确认 `/healthz` 返回 `ok`。

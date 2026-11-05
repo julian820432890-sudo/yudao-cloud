@@ -1,21 +1,21 @@
 -- ----------------------------
 -- 分布式事务示例：2 个独立的演示库，各自包含一张业务表 + Seata AT 模式的 undo_log 表
 --
--- 1. yudao_seata_order：订单库，对应 seata_order 数据源（单体：yudao-server；微服务：system-server 发起方）
---    yudao_seata_account：账户库，对应 seata_account 数据源（单体：yudao-server；微服务：infra-server 参与方）
+-- 1. antian_seata_order：订单库，对应 seata_order 数据源（单体：antian-server；微服务：system-server 发起方）
+--    antian_seata_account：账户库，对应 seata_account 数据源（单体：antian-server；微服务：infra-server 参与方）
 -- 2. 本脚本使用「库名.表名」，可以在同一个 MySQL 实例上直接执行，可重复执行；
 --    如果两个库在不同的 MySQL 实例上，则分别执行对应库的语句
 -- 3. undo_log 必须和业务表在同一个库中，Seata Server 不需要这张表
 -- 4. 不会修改 master 主库，也不会删除已有的库、表、数据
 -- ----------------------------
 
-CREATE DATABASE IF NOT EXISTS `yudao_seata_order` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE DATABASE IF NOT EXISTS `yudao_seata_account` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE IF NOT EXISTS `antian_seata_order` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE IF NOT EXISTS `antian_seata_account` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- ----------------------------
--- 订单库：yudao_seata_order
+-- 订单库：antian_seata_order
 -- ----------------------------
-CREATE TABLE IF NOT EXISTS `yudao_seata_order`.`demo_seata_order` (
+CREATE TABLE IF NOT EXISTS `antian_seata_order`.`demo_seata_order` (
   `id` bigint NOT NULL COMMENT '订单编号（由调用方传入，作为幂等主键）',
   `user_id` bigint NOT NULL COMMENT '用户编号',
   `amount` int NOT NULL COMMENT '订单金额，单位：分',
@@ -30,9 +30,9 @@ CREATE TABLE IF NOT EXISTS `yudao_seata_order`.`demo_seata_order` (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '分布式事务示例订单表';
 
 -- ----------------------------
--- 账户库：yudao_seata_account
+-- 账户库：antian_seata_account
 -- ----------------------------
-CREATE TABLE IF NOT EXISTS `yudao_seata_account`.`demo_seata_account` (
+CREATE TABLE IF NOT EXISTS `antian_seata_account`.`demo_seata_account` (
   `id` bigint NOT NULL COMMENT '账户编号',
   `user_id` bigint NOT NULL COMMENT '用户编号',
   `balance` int NOT NULL DEFAULT 0 COMMENT '余额，单位：分',
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `yudao_seata_account`.`demo_seata_account` (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '分布式事务示例账户表';
 
 -- 演示账户：租户 1、用户 1，初始余额 100 分；已存在时不覆盖（INSERT IGNORE），只影响本演示库
-INSERT IGNORE INTO `yudao_seata_account`.`demo_seata_account` (`id`, `user_id`, `balance`, `tenant_id`) VALUES (1, 1, 100, 1);
+INSERT IGNORE INTO `antian_seata_account`.`demo_seata_account` (`id`, `user_id`, `balance`, `tenant_id`) VALUES (1, 1, 100, 1);
 
 -- ----------------------------
 -- undo_log：AT 模式的回滚日志，两个演示库各一张
@@ -58,7 +58,7 @@ INSERT IGNORE INTO `yudao_seata_account`.`demo_seata_account` (`id`, `user_id`, 
 -- （http://www.apache.org/licenses/LICENSE-2.0）。
 -- 与官方脚本的差异：官方使用单独的 ALTER TABLE 添加 ix_log_created 索引，这里写入 CREATE TABLE，便于重复执行；字段、索引保持一致。
 -- ----------------------------
-CREATE TABLE IF NOT EXISTS `yudao_seata_order`.`undo_log`
+CREATE TABLE IF NOT EXISTS `antian_seata_order`.`undo_log`
 (
     `branch_id`     BIGINT       NOT NULL COMMENT 'branch transaction id',
     `xid`           VARCHAR(128) NOT NULL COMMENT 'global transaction id',
@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `yudao_seata_order`.`undo_log`
     KEY `ix_log_created` (`log_created`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8mb4 COMMENT ='AT transaction mode undo table';
 
-CREATE TABLE IF NOT EXISTS `yudao_seata_account`.`undo_log`
+CREATE TABLE IF NOT EXISTS `antian_seata_account`.`undo_log`
 (
     `branch_id`     BIGINT       NOT NULL COMMENT 'branch transaction id',
     `xid`           VARCHAR(128) NOT NULL COMMENT 'global transaction id',

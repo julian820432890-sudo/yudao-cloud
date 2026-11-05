@@ -119,7 +119,7 @@ HIGHGO_PASSWORD='数据库密码' docker compose run --rm highgo-init
 
 > 注意：默认使用瀚高的 `highgo` 账号连接 `highgo` 数据库执行建库，可以通过 `HIGHGO_USER`、`HIGHGO_MAINTENANCE_DB` 环境变量修改；密码以镜像或安装时的实际设置为准，脚本不会修改数据库的认证配置。初始化只允许创建全新的数据库：数据库已存在（包括空库）或重复执行时，脚本拒绝导入并返回非零状态；导入失败时保留数据库便于排查。该入口只适用于 PostgreSQL 客户端支持的认证方式（例如 md5、scram-sha-256），数据库开启 SM3 等专有认证时，请使用瀚高客户端手动执行上述两个 SQL 文件。
 
-④ 项目可以使用 PostgreSQL JDBC 驱动（`jdbc:postgresql://127.0.0.1:5866/ruoyi-vue-pro`），也可以使用瀚高 JDBC 驱动（`jdbc:highgo://127.0.0.1:5866/ruoyi-vue-pro`），两者都按 PostgreSQL 处理序列主键等差异，`url` 需要与 `driver-class-name` 配对。驱动需要引入到每个连接数据库的 `yudao-module-xxx-server/pom.xml` 的 `<dependencies>` 中：`yudao-spring-boot-starter-mybatis` 中的 `org.postgresql:postgresql` 是 `optional` 依赖，只在 `yudao-dependencies` 中声明版本也不会引入 jar 包。各服务的数据源配置，以及 Nacos 配置中心的覆盖关系，需要逐个服务修改，详见 [《国产信创数据库》](https://cloud.iocoder.cn/xinchuang-db/#_4-highgo-瀚高数据库) 文档。
+④ 项目可以使用 PostgreSQL JDBC 驱动（`jdbc:postgresql://127.0.0.1:5866/ruoyi-vue-pro`），也可以使用瀚高 JDBC 驱动（`jdbc:highgo://127.0.0.1:5866/ruoyi-vue-pro`），两者都按 PostgreSQL 处理序列主键等差异，`url` 需要与 `driver-class-name` 配对。驱动需要引入到每个连接数据库的 `antian-module-xxx-server/pom.xml` 的 `<dependencies>` 中：`antian-spring-boot-starter-mybatis` 中的 `org.postgresql:postgresql` 是 `optional` 依赖，只在 `antian-dependencies` 中声明版本也不会引入 jar 包。各服务的数据源配置，以及 Nacos 配置中心的覆盖关系，需要逐个服务修改，详见 [《国产信创数据库》](https://cloud.iocoder.cn/xinchuang-db/#_4-highgo-瀚高数据库) 文档。
 
 ### 1.9 OceanBase
 
@@ -189,7 +189,7 @@ GAUSSDB_PORT='数据库端口' GAUSSDB_USER='数据库账号' GAUSSDB_PASSWORD='
 
 > 注意：`GAUSSDB_HOST` 为空时，使用本机 Unix Socket 连接；远程连接时，需要在 `gs_hba.conf`（不是 `pg_hba.conf`）中为该账号、客户端地址配置密码认证（例如 sha256），不要使用 trust。GaussDB 的初始用户不允许远程连接，项目请使用单独创建的账号。
 
-② 项目使用 GaussDB 原生 JDBC 驱动（`com.huawei.gaussdb.jdbc.Driver`，`jdbc:gaussdb://127.0.0.1:端口/ruoyi-vue-pro`），按 PostgreSQL 处理序列主键、工作流等差异，驱动需要引入到每个连接数据库的 `yudao-module-xxx-server/pom.xml` 的 `<dependencies>` 中。各服务的数据源配置，以及 Nacos 配置中心的覆盖关系，需要逐个服务修改，详见 [《国产信创数据库》](https://cloud.iocoder.cn/xinchuang-db/#_7-华为-gaussdb-数据库) 文档。
+② 项目使用 GaussDB 原生 JDBC 驱动（`com.huawei.gaussdb.jdbc.Driver`，`jdbc:gaussdb://127.0.0.1:端口/ruoyi-vue-pro`），按 PostgreSQL 处理序列主键、工作流等差异，驱动需要引入到每个连接数据库的 `antian-module-xxx-server/pom.xml` 的 `<dependencies>` 中。各服务的数据源配置，以及 Nacos 配置中心的覆盖关系，需要逐个服务修改，详见 [《国产信创数据库》](https://cloud.iocoder.cn/xinchuang-db/#_7-华为-gaussdb-数据库) 文档。
 
 ### 1.12 MogDB
 
@@ -217,7 +217,7 @@ username: mogdb
 password: Yudao@2024
 ```
 
-> 注意：端口只绑定本机 `127.0.0.1:15432`；`omm` 初始用户不允许远程连接，项目使用 `mogdb` 用户。`jdbc:opengauss:` 按 PostgreSQL 处理序列主键等差异，驱动需要引入到每个连接数据库的 `yudao-module-xxx-server/pom.xml` 的 `<dependencies>` 中。详见 [《国产信创数据库》](https://cloud.iocoder.cn/xinchuang-db/#_11-云和恩墨-mogdb-数据库) 文档。
+> 注意：端口只绑定本机 `127.0.0.1:15432`；`omm` 初始用户不允许远程连接，项目使用 `mogdb` 用户。`jdbc:opengauss:` 按 PostgreSQL 处理序列主键等差异，驱动需要引入到每个连接数据库的 `antian-module-xxx-server/pom.xml` 的 `<dependencies>` 中。详见 [《国产信创数据库》](https://cloud.iocoder.cn/xinchuang-db/#_11-云和恩墨-mogdb-数据库) 文档。
 
 ### 1.13 神通数据库
 
@@ -235,13 +235,13 @@ sed -e '/^-- Table structure for dual$/,/^-- @formatter:on$/d' -e 's/varchar(102
 ALTER TABLE system_menu ALTER COLUMN id SET DEFAULT nextval('system_menu_seq');
 ```
 
-如需使用 IoT 模块（`yudao-module-iot-server` 基于 Quartz 实现定时任务），再以该账号执行 Quartz 的临时脚本：只将 `bytea` 字段改为神通的 `BLOB`（`bytea` 字段在神通上无法读取任务数据），其余 SQL 保持不变：
+如需使用 IoT 模块（`antian-module-iot-server` 基于 Quartz 实现定时任务），再以该账号执行 Quartz 的临时脚本：只将 `bytea` 字段改为神通的 `BLOB`（`bytea` 字段在神通上无法读取任务数据），其余 SQL 保持不变：
 
 ```Bash
 sed 's/ bytea / BLOB /' ../opengauss/quartz.sql > /tmp/quartz-shentong.sql
 ```
 
-> 注意：该 Quartz 脚本用于全新初始化，不支持把已有数据的 `bytea` 字段转换为 `BLOB`。Quartz 使用默认的 `StdJDBCDelegate`，不需要设置 `driverDelegateClass`，也不要开启 `useProperties`（任务参数包含 `Long` 等非字符串类型）。Quartz 的表需要在 `yudao-module-iot-server` 连接的数据库中创建。
+> 注意：该 Quartz 脚本用于全新初始化，不支持把已有数据的 `bytea` 字段转换为 `BLOB`。Quartz 使用默认的 `StdJDBCDelegate`，不需要设置 `driverDelegateClass`，也不要开启 `useProperties`（任务参数包含 `Long` 等非字符串类型）。Quartz 的表需要在 `antian-module-iot-server` 连接的数据库中创建。
 
 ② 项目使用神通 JDBC 驱动（`com.oscar.Driver`），使用序列主键（复用 MyBatis Plus 的 `PostgreKeyGenerator`），分页使用 MyBatis Plus 内置的神通方言。将各服务数据源配置中的地址、账号和密码修改为：
 
@@ -251,7 +251,7 @@ username: 神通账号
 password: 神通密码
 ```
 
-驱动需要引入到每个连接数据库的 `yudao-module-xxx-server/pom.xml` 的 `<dependencies>` 中（`yudao-dependencies`、`yudao-spring-boot-starter-mybatis` 不包含该驱动）：
+驱动需要引入到每个连接数据库的 `antian-module-xxx-server/pom.xml` 的 `<dependencies>` 中（`antian-dependencies`、`antian-spring-boot-starter-mybatis` 不包含该驱动）：
 
 ```xml
 <dependency>
@@ -263,7 +263,7 @@ password: 神通密码
 
 > 注意：该驱动是 Maven 中央仓库上 `com.shentongdata` 发布的版本，不是神通官方下载中心的配套认证版本。项目适配时使用的是神通 7.0.14，其它版本请自行验证。
 
-③ 工作流：神通驱动返回的数据库产品名为 `OSCAR`，Flowable 无法自动识别，`yudao-module-bpm-server` 会在未设置 `flowable.database-type` 时，将其按 `oracle` 处理（使用 Flowable 内置的 Oracle 建表脚本，`BLOB`、`CLOB` 字段及大写的表名）。Flowable 按默认的 `flowable.database-schema-update: true` 自动创建 Flowable 引擎的 `ACT_`、`FLW_` 表；BPM 模块的 `bpm_` 业务表不会自动创建，需要先按 [《工作流 · 功能开启》](https://cloud.iocoder.cn/bpm/) 获取 BPM 的 SQL，转换为神通可以执行的 SQL（包括 `bpm_` 表对应的序列）后导入。如果显式设置了 `flowable.database-type`（包括 Nacos 中优先级更高的配置），以显式设置为准，神通需要设置为 `oracle`，不要设置为 `postgres`。
+③ 工作流：神通驱动返回的数据库产品名为 `OSCAR`，Flowable 无法自动识别，`antian-module-bpm-server` 会在未设置 `flowable.database-type` 时，将其按 `oracle` 处理（使用 Flowable 内置的 Oracle 建表脚本，`BLOB`、`CLOB` 字段及大写的表名）。Flowable 按默认的 `flowable.database-schema-update: true` 自动创建 Flowable 引擎的 `ACT_`、`FLW_` 表；BPM 模块的 `bpm_` 业务表不会自动创建，需要先按 [《工作流 · 功能开启》](https://cloud.iocoder.cn/bpm/) 获取 BPM 的 SQL，转换为神通可以执行的 SQL（包括 `bpm_` 表对应的序列）后导入。如果显式设置了 `flowable.database-type`（包括 Nacos 中优先级更高的配置），以显式设置为准，神通需要设置为 `oracle`，不要设置为 `postgres`。
 
 ## 1.X 容器的销毁重建
 

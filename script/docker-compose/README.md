@@ -20,12 +20,12 @@ script/docker-compose
 
 | 服务 | 镜像 | 说明 |
 | --- | --- | --- |
-| `mysql` | `mysql:8.4` | 首次启动导入 `sql/mysql/ruoyi-vue-pro.sql`，数据卷 `yudao-cloud_mysql-data` |
-| `redis` | `redis:7.4-alpine` | 开启密码与 AOF，数据卷 `yudao-cloud_redis-data` |
-| `nacos` | `nacos/nacos-server:v3.0.3` | 可选（profile `nacos`），单机 + 嵌入式存储，数据卷 `yudao-cloud_nacos-data` |
-| `gateway` | `yudao-gateway:${IMAGE_TAG}` | 由 `yudao-gateway/Dockerfile` 构建，端口 48080，Nacos 服务名 `gateway-server` |
-| `system-server` | `yudao-module-system-server:${IMAGE_TAG}` | 由模块 Dockerfile 构建，端口 48081，Nacos 服务名 `system-server` |
-| `infra-server` | `yudao-module-infra-server:${IMAGE_TAG}` | 由模块 Dockerfile 构建，端口 48082，Nacos 服务名 `infra-server` |
+| `mysql` | `mysql:8.4` | 首次启动导入 `sql/mysql/ruoyi-vue-pro.sql`，数据卷 `antian-cloud_mysql-data` |
+| `redis` | `redis:7.4-alpine` | 开启密码与 AOF，数据卷 `antian-cloud_redis-data` |
+| `nacos` | `nacos/nacos-server:v3.0.3` | 可选（profile `nacos`），单机 + 嵌入式存储，数据卷 `antian-cloud_nacos-data` |
+| `gateway` | `antian-gateway:${IMAGE_TAG}` | 由 `antian-gateway/Dockerfile` 构建，端口 48080，Nacos 服务名 `gateway-server` |
+| `system-server` | `antian-module-system-server:${IMAGE_TAG}` | 由模块 Dockerfile 构建，端口 48081，Nacos 服务名 `system-server` |
+| `infra-server` | `antian-module-infra-server:${IMAGE_TAG}` | 由模块 Dockerfile 构建，端口 48082，Nacos 服务名 `infra-server` |
 | `web` | `nginx:1.28-alpine` | 对宿主机开放 `${WEB_PORT}`（默认 8080） |
 
 请求链路：浏览器 → `web`（Nginx）→ `gateway` → 通过 Nacos 发现 `system-server`、`infra-server`。`gateway` 只依赖 Nacos，不连接 MySQL、Redis。
@@ -44,18 +44,18 @@ script/docker-compose
 在**源码根目录**执行：
 
 ```shell
-mvn clean package -pl yudao-gateway,yudao-module-system/yudao-module-system-server,yudao-module-infra/yudao-module-infra-server -am -Dmaven.test.skip=true
+mvn clean package -pl antian-gateway,antian-module-system/antian-module-system-server,antian-module-infra/antian-module-infra-server -am -Dmaven.test.skip=true
 ```
 
-产物为 `yudao-gateway/target/yudao-gateway.jar`、`yudao-module-system/yudao-module-system-server/target/yudao-module-system-server.jar`、`yudao-module-infra/yudao-module-infra-server/target/yudao-module-infra-server.jar`，`docker compose build` 时由各模块的 Dockerfile 复制进镜像。
+产物为 `antian-gateway/target/antian-gateway.jar`、`antian-module-system/antian-module-system-server/target/antian-module-system-server.jar`、`antian-module-infra/antian-module-infra-server/target/antian-module-infra-server.jar`，`docker compose build` 时由各模块的 Dockerfile 复制进镜像。
 
 ## 2. 准备前端产物
 
 前端是独立仓库，这里不构建前端源码。打包前确认前端生产环境配置：
 
 - 浏览器访问地址使用 Nginx 的同源地址，例如 `http://localhost:8080`，不要写 `gateway`、`127.0.0.1:48080` 等容器名或后端端口
-- API 路径为 `/admin-api`：`yudao-ui-admin-vue3` 为 `.env.prod` 的 `VITE_BASE_URL` + `VITE_API_URL`；`yudao-ui-admin-vben` 为 `apps/web-*/.env.production` 的 `VITE_BASE_URL`、`VITE_GLOB_API_URL`
-- 前端 `VITE_APP_CAPTCHA_ENABLE` 与 `.env` 中的 `YUDAO_CAPTCHA_ENABLE` 一致
+- API 路径为 `/admin-api`：`antian-ui-admin-vue3` 为 `.env.prod` 的 `VITE_BASE_URL` + `VITE_API_URL`；`antian-ui-admin-vben` 为 `apps/web-*/.env.production` 的 `VITE_BASE_URL`、`VITE_GLOB_API_URL`
+- 前端 `VITE_APP_CAPTCHA_ENABLE` 与 `.env` 中的 `ANTIAN_CAPTCHA_ENABLE` 一致
 
 将打包产物目录中的内容（包含 `index.html`）复制到 `script/docker-compose/web/dist/`，在**源码根目录**执行：
 
@@ -64,7 +64,7 @@ mkdir -p script/docker-compose/web/dist
 cp -R /path/to/前端打包产物目录/. script/docker-compose/web/dist/
 ```
 
-例如 `yudao-ui-admin-vue3` 执行 `pnpm build:prod` 后为 `dist-prod`；`yudao-ui-admin-vben` 执行 `pnpm build:antd` 后为 `apps/web-antd/dist`。
+例如 `antian-ui-admin-vue3` 执行 `pnpm build:prod` 后为 `dist-prod`；`antian-ui-admin-vben` 执行 `pnpm build:antd` 后为 `apps/web-antd/dist`。
 
 ## 3. 配置环境变量
 
@@ -81,11 +81,11 @@ cp .env.example .env
 | `IMAGE_TAG` | `local` | 后端镜像 tag |
 | `MYSQL_DATABASE` | `ruoyi-vue-pro` | 数据库名 |
 | `MYSQL_ROOT_PASSWORD` | 示例值 | MySQL root 密码，仅供初始化与运维使用 |
-| `MYSQL_USER` / `MYSQL_PASSWORD` | `yudao` / 示例值 | 应用使用的账号，只拥有 `MYSQL_DATABASE` 库权限 |
+| `MYSQL_USER` / `MYSQL_PASSWORD` | `antian` / 示例值 | 应用使用的账号，只拥有 `MYSQL_DATABASE` 库权限 |
 | `REDIS_PASSWORD` | 示例值 | Redis 密码 |
 | `SPRING_PROFILES_ACTIVE` | `dev` | 后端 profile，同时决定 Nacos Data ID 后缀 |
 | `JAVA_OPTS` | `-Xms512m -Xmx512m` | JVM 参数，三个 Java 服务共用 |
-| `YUDAO_CAPTCHA_ENABLE` | `true` | 是否开启登录验证码 |
+| `ANTIAN_CAPTCHA_ENABLE` | `true` | 是否开启登录验证码 |
 | `COMPOSE_PROFILES` | `nacos` | 为 `nacos` 时启动内置 Nacos；复用已部署的 Nacos 时清空 |
 | `NACOS_SERVER_ADDR` | `nacos:8848` | Nacos 地址，必须是**容器内**可访问的地址 |
 | `NACOS_NAMESPACE` | `public` | 命名空间 ID，注册中心与配置中心共用 |
@@ -98,7 +98,7 @@ cp .env.example .env
 - 数据库主库 `master`、从库 `slave`，Redis：指向 Compose 内的 `mysql`、`redis`
 - Nacos 地址、账号、命名空间、分组：`spring.cloud.nacos.*`
 - `xxl.job.enabled=false`：本编排不提供 XXL-Job 调度中心
-- `yudao.demo=false`：`application-dev.yaml` 默认开启的演示模式会禁止写操作
+- `antian.demo=false`：`application-dev.yaml` 默认开启的演示模式会禁止写操作
 
 ## 4. Nacos 说明
 
@@ -141,7 +141,7 @@ docker compose logs -f gateway system-server infra-server
 ```shell
 # 后端：回到源码根目录重新打包，再回到本目录重建、重启
 cd ../..
-mvn clean package -pl yudao-gateway,yudao-module-system/yudao-module-system-server,yudao-module-infra/yudao-module-infra-server -am -Dmaven.test.skip=true
+mvn clean package -pl antian-gateway,antian-module-system/antian-module-system-server,antian-module-infra/antian-module-infra-server -am -Dmaven.test.skip=true
 cd script/docker-compose
 docker compose up -d --build gateway system-server infra-server
 
@@ -160,12 +160,12 @@ docker compose restart web
 docker compose down
 ```
 
-**不要执行 `docker compose down -v`**，它会删除 `yudao-cloud_mysql-data`、`yudao-cloud_redis-data`、`yudao-cloud_nacos-data` 数据卷，数据库内容将全部丢失。
+**不要执行 `docker compose down -v`**，它会删除 `antian-cloud_mysql-data`、`antian-cloud_redis-data`、`antian-cloud_nacos-data` 数据卷，数据库内容将全部丢失。
 
 ## 数据库初始化说明
 
 - SQL 只在 `mysql-data` 数据卷为空（首次启动）时执行一次；之后修改 SQL 文件、`.env` 中的 `MYSQL_*` 账号密码，都不会作用于已有数据库。
-- 首次导入中途失败（例如容器被强制停止），数据卷会处于半初始化状态，需要确认数据可丢弃后执行 `docker compose down`、`docker volume rm yudao-cloud_mysql-data` 再重新启动。
+- 首次导入中途失败（例如容器被强制停止），数据卷会处于半初始化状态，需要确认数据可丢弃后执行 `docker compose down`、`docker volume rm antian-cloud_mysql-data` 再重新启动。
 - 已有数据卷升级到新版本时，SQL 不会自动执行。请先备份，再手动执行对应的升级 SQL，例如：
 
 ```shell

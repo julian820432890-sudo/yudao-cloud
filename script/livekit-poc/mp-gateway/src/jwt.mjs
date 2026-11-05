@@ -119,7 +119,7 @@ export function signAdminToken(config, video, ttlSec = 300) {
   const header = Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString('base64url')
   const payload = Buffer.from(JSON.stringify({
     iss: config.apiKey,
-    sub: 'yudao-mp-gateway',
+    sub: 'antian-mp-gateway',
     nbf: nowSec - 5,
     exp: nowSec + ttlSec,
     video,

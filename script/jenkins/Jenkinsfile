@@ -1,10 +1,10 @@
 #!groovy
-// yudao-cloud 的 Jenkins 部署流水线：Maven 打包某一个服务的 Jar，再通过 SSH 部署到一台 Linux 服务器
+// antian-cloud 的 Jenkins 部署流水线：Maven 打包某一个服务的 Jar，再通过 SSH 部署到一台 Linux 服务器
 //
 // 使用说明见《Jenkins 部署》文档：https://cloud.iocoder.cn/deployment-jenkins/
 // 1. 每个服务新建一个「Pipeline（流水线）」类型的 Job，Job 名称就是服务名：gateway-server、system-server、infra-server
 //    都选择「Pipeline script from SCM」，Script Path 填写 script/jenkins/Jenkinsfile
-// 2. Jenkins 中配置 Tools（jdk17、maven3），以及两个凭据（yudao-deploy-ssh、yudao-deploy-known-hosts）
+// 2. Jenkins 中配置 Tools（jdk17、maven3），以及两个凭据（antian-deploy-ssh、antian-deploy-known-hosts）
 // 3. 服务器上提前创建 <DEPLOY_BASE_DIR>/<服务名> 目录，并放入运行时配置 app.env（Nacos、数据库、Redis 的地址与密码）
 
 // 在目标服务器上执行的脚本：Jenkins 通过 ssh 传入，用法为 bash -s -- <check|deploy> <部署根目录> <服务名> <默认端口>
@@ -240,8 +240,8 @@ pipeline {
 
     environment {
         // Jenkins 凭据 ID：SSH 私钥（SSH Username with private key）、known_hosts 文件（Secret file）
-        SSH_CREDENTIAL_ID = 'yudao-deploy-ssh'
-        KNOWN_HOSTS_CREDENTIAL_ID = 'yudao-deploy-known-hosts'
+        SSH_CREDENTIAL_ID = 'antian-deploy-ssh'
+        KNOWN_HOSTS_CREDENTIAL_ID = 'antian-deploy-known-hosts'
     }
 
     stages {
@@ -257,12 +257,12 @@ pipeline {
                     // 根据 Job 名称，确定部署的服务。key 是服务名（spring.application.name），同时是服务器上的目录名、Jar 包名
                     // module 是 Maven 模块，jar 是打包出的 Jar 包，port 是服务端口（用于启动检查，app.env 中设置了 SERVER_PORT 时以它为准）
                     def services = [
-                        'gateway-server': [module: 'yudao-gateway',
-                                           jar: 'yudao-gateway/target/yudao-gateway.jar', port: '48080'],
-                        'system-server' : [module: 'yudao-module-system/yudao-module-system-server',
-                                           jar: 'yudao-module-system/yudao-module-system-server/target/yudao-module-system-server.jar', port: '48081'],
-                        'infra-server'  : [module: 'yudao-module-infra/yudao-module-infra-server',
-                                           jar: 'yudao-module-infra/yudao-module-infra-server/target/yudao-module-infra-server.jar', port: '48082']
+                        'gateway-server': [module: 'antian-gateway',
+                                           jar: 'antian-gateway/target/antian-gateway.jar', port: '48080'],
+                        'system-server' : [module: 'antian-module-system/antian-module-system-server',
+                                           jar: 'antian-module-system/antian-module-system-server/target/antian-module-system-server.jar', port: '48081'],
+                        'infra-server'  : [module: 'antian-module-infra/antian-module-infra-server',
+                                           jar: 'antian-module-infra/antian-module-infra-server/target/antian-module-infra-server.jar', port: '48082']
                     ]
                     def service = services[env.JOB_BASE_NAME]
                     if (service == null) {

@@ -6,7 +6,7 @@
 
 Seata Server 的启动、配置、验证及使用限制，请阅读项目文档《分布式事务》，本文只列出材料及分支适用范围：
 
-- 微服务项目 yudao-cloud：<https://cloud.iocoder.cn/distributed-transaction/>
+- 微服务项目 antian-cloud：<https://cloud.iocoder.cn/distributed-transaction/>
 - 单体项目 ruoyi-vue-pro：<https://doc.iocoder.cn/distributed-transaction/>
 
 ## 1. 材料清单
@@ -14,15 +14,15 @@ Seata Server 的启动、配置、验证及使用限制，请阅读项目文档�
 | 文件 | 说明 | 目标位置 |
 | --- | --- | --- |
 | `sql/mysql/demo_seata.sql` | 创建 2 个演示库，各一张示例表 + `undo_log` 表 | 在 MySQL 中执行 |
-| `dependencies.xml` | Maven 依赖片段 | `yudao-module-system-server/pom.xml`、`yudao-module-infra-server/pom.xml` 都要添加 |
-| `dependencies-jdk25.xml` | 仅 `master-jdk25` 分支按条件补充的 `spring-boot-data-commons` 依赖片段，见下面的《2. 分支适用范围》 | 满足条件的每个使用 Feign 客户端的服务，示例的 `yudao-module-system-server/pom.xml`、`yudao-module-infra-server/pom.xml` 都要检查 |
+| `dependencies.xml` | Maven 依赖片段 | `antian-module-system-server/pom.xml`、`antian-module-infra-server/pom.xml` 都要添加 |
+| `dependencies-jdk25.xml` | 仅 `master-jdk25` 分支按条件补充的 `spring-boot-data-commons` 依赖片段，见下面的《2. 分支适用范围》 | 满足条件的每个使用 Feign 客户端的服务，示例的 `antian-module-system-server/pom.xml`、`antian-module-infra-server/pom.xml` 都要检查 |
 | `seata.yaml` | 按服务分为两段：数据源及 Seata 客户端的配置片段 | 分别合并到两个服务的 `application-{profile}.yaml` 或 Nacos 配置；`seata: false` 只追加到已经存在的数据源，没有 `slave` 时不要复制 `slave` 段 |
-| `src/main/java/.../system/seatademo/` | 订单 DO、Mapper、Service，全局事务入口 `DemoSeataTradeService`，Feign 客户端 `DemoSeataAccountApi`，以及传递 XID 的 `DemoSeataRpcConfiguration` | `yudao-module-system-server/src/main/java` 的同名包 |
-| `src/main/java/.../infra/seatademo/` | 账户 DO、Mapper、Service，以及 RPC 接口 `DemoSeataAccountRpcController` | `yudao-module-infra-server/src/main/java` 的同名包 |
+| `src/main/java/.../system/seatademo/` | 订单 DO、Mapper、Service，全局事务入口 `DemoSeataTradeService`，Feign 客户端 `DemoSeataAccountApi`，以及传递 XID 的 `DemoSeataRpcConfiguration` | `antian-module-system-server/src/main/java` 的同名包 |
+| `src/main/java/.../infra/seatademo/` | 账户 DO、Mapper、Service，以及 RPC 接口 `DemoSeataAccountRpcController` | `antian-module-infra-server/src/main/java` 的同名包 |
 
-示例的包名分别在 `system-server`、`infra-server` 的 `yudao.info.base-package` 下，才能被 Spring、MyBatis 扫描到。不修改 `yudao-module-infra-api` 模块、已有的 `RpcConfiguration` 及安全配置。
+示例的包名分别在 `system-server`、`infra-server` 的 `antian.info.base-package` 下，才能被 Spring、MyBatis 扫描到。不修改 `antian-module-infra-api` 模块、已有的 `RpcConfiguration` 及安全配置。
 
-单体项目 ruoyi-vue-pro 的 `script/seata/` 目录使用同样的 SQL、依赖片段，以及订单、账户的 DO、Mapper、Service；差异是单体项目在同一个进程中直接调用账户 Service，没有 Feign 相关的类，依赖片段添加到全局事务入口所在的 `yudao-module-system/pom.xml`。
+单体项目 ruoyi-vue-pro 的 `script/seata/` 目录使用同样的 SQL、依赖片段，以及订单、账户的 DO、Mapper、Service；差异是单体项目在同一个进程中直接调用账户 Service，没有 Feign 相关的类，依赖片段添加到全局事务入口所在的 `antian-module-system/pom.xml`。
 
 ## 2. 分支适用范围
 

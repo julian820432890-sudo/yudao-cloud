@@ -28,8 +28,8 @@
 
 | 版本                                                                    | JDK 8 + Spring Boot 2.7                                                  | JDK 17/21 + Spring Boot 3.5                                                          | JDK 25 + Spring Boot 4.x                                                             |
 |-----------------------------------------------------------------------|--------------------------------------------------------------------------|--------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------|
-| 【完整版】[yudao-cloud](https://gitee.com/zhijiantianya/yudao-cloud)       | [`master`](https://gitee.com/zhijiantianya/yudao-cloud/tree/master/) 分支  | [`master-jdk17`](https://gitee.com/zhijiantianya/yudao-cloud/tree/master-jdk17/) 分支  | [`master-jdk25`](https://gitee.com/zhijiantianya/yudao-cloud/tree/master-jdk25/) 分支  |
-| 【精简版】[yudao-cloud-mini](https://gitee.com/yudaocode/yudao-cloud-mini) | [`master`](https://gitee.com/yudaocode/yudao-cloud-mini/tree/master/) 分支 | [`master-jdk17`](https://gitee.com/yudaocode/yudao-cloud-mini/tree/master-jdk17/) 分支 | [`master-jdk25`](https://gitee.com/yudaocode/yudao-cloud-mini/tree/master-jdk25/) 分支 |
+| 【完整版】[antian-cloud](https://gitee.com/zhijiantianya/yudao-cloud)       | [`master`](https://gitee.com/zhijiantianya/yudao-cloud/tree/master/) 分支  | [`master-jdk17`](https://gitee.com/zhijiantianya/yudao-cloud/tree/master-jdk17/) 分支  | [`master-jdk25`](https://gitee.com/zhijiantianya/yudao-cloud/tree/master-jdk25/) 分支  |
+| 【精简版】[antian-cloud-mini](https://gitee.com/yudaocode/yudao-cloud-mini) | [`master`](https://gitee.com/yudaocode/yudao-cloud-mini/tree/master/) 分支 | [`master-jdk17`](https://gitee.com/yudaocode/yudao-cloud-mini/tree/master-jdk17/) 分支 | [`master-jdk25`](https://gitee.com/yudaocode/yudao-cloud-mini/tree/master-jdk25/) 分支 |
 
 * 【完整版】：包括系统功能、基础设施、工作流程、支付系统、数据报表、微信公众号、商城系统、会员中心、ERP、WMS、CRM、MES、HRM、FMS、PMS、OA 协同办公、AI 大模型、IoT 物联网、IM 即时通讯等功能
 * 【精简版】：只包括系统功能、基础设施功能，不包括工作流程、支付系统、数据报表、微信公众号、商城系统、会员中心、ERP、WMS、CRM、MES、HRM、FMS、PMS、OA 协同办公、AI 大模型、IoT 物联网、IM 即时通讯等功能
@@ -44,7 +44,7 @@
 >
 > 😜 给项目点点 Star 吧，这对我们真的很重要！
 
-![架构图](/.image/common/yudao-cloud-architecture.png)
+![架构图](/.image/common/antian-cloud-architecture.png)
 
 * Java 后端：`master` 分支为 JDK 8 + Spring Boot 2.7，`master-jdk17` 分支为 JDK 17/21 + Spring Boot 3.5，`master-jdk25` 分支为 JDK 25 + Spring Boot 4.x
 * 管理后台的电脑端：Vue3 提供 [element-plus](https://gitee.com/yudaocode/yudao-ui-admin-vue3)、[vben(ant-design-vue)](https://gitee.com/yudaocode/yudao-ui-admin-vben) 两个版本，Vue2 提供 [element-ui](https://gitee.com/zhijiantianya/ruoyi-vue-pro/tree/master/yudao-ui-admin) 版本
@@ -72,7 +72,7 @@
 | 关系型数据库   | MySQL、MariaDB、Oracle、PostgreSQL、SQL Server          | 默认使用 MySQL                                                                                                                                                                                 |
 | 国产关系型数据库 | 达梦 DM、人大金仓 KingbaseES、openGauss、瀚高 HighGo、OceanBase、TiDB、华为 GaussDB、云和恩墨 MogDB、海量 Vastbase G100、PolarDB、神通 | 参考 [《国产信创数据库》](https://cloud.iocoder.cn/xinchuang-db/) |
 | 国产缓存     | 东方通 TongRDS、宝兰德 BES CacheDB                         | 替换 Redis，参考 [《国产信创数据库》](https://cloud.iocoder.cn/xinchuang-db/)                                                                                           |
-| 国产应用服务器  | 东方通 TongWeb、宝兰德 BES AppServer                       | 替换 Tomcat（`yudao-gateway` 基于 WebFlux，不适用），参考 [《东方通服务器部署》](https://cloud.iocoder.cn/deployment-tong/)、[《宝兰德服务器部署》](https://cloud.iocoder.cn/deployment-bes/) |
+| 国产应用服务器  | 东方通 TongWeb、宝兰德 BES AppServer                       | 替换 Tomcat（`antian-gateway` 基于 WebFlux，不适用），参考 [《东方通服务器部署》](https://cloud.iocoder.cn/deployment-tong/)、[《宝兰德服务器部署》](https://cloud.iocoder.cn/deployment-bes/) |
 | 国产 Web 服务器 | 东方通 TongHttpServer                                   | 替换 Nginx，提供静态资源、反向代理，参考 [《东方通服务器部署》](https://cloud.iocoder.cn/deployment-tong/)                                                                                                   |
 
 * 数据库脚本：[`sql`](sql/) 目录提供 MySQL、Oracle、PostgreSQL、SQL Server、达梦、人大金仓、openGauss、瀚高、OceanBase 的项目初始化脚本（含 Quartz），优先使用对应目录；MariaDB、TiDB 直接使用 MySQL 脚本；GaussDB、MogDB、Vastbase G100 基于 openGauss 脚本导入，PolarDB PostgreSQL 版直接使用 PostgreSQL 脚本；神通需按 [文档](https://cloud.iocoder.cn/xinchuang-db/#_9-神通数据库) 调整 openGauss 项目脚本（含 Quartz）后导入
@@ -80,7 +80,7 @@
 
 ##  🐳 项目关系
 
-![架构演进](/.image/common/yudao-roadmap.png)
+![架构演进](/.image/common/antian-roadmap.png)
 
 三个项目的功能对比，可见社区共同整理的 [国产开源项目对比](https://www.yuque.com/xiatian-bsgny/lm0ec1/wqf8mn) 表格。
 
@@ -89,19 +89,19 @@
 | 项目                                                              | Star                                                                                                                                                                                                                                                                                             | 简介                          |
 |-----------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------|
 | [ruoyi-vue-pro](https://gitee.com/zhijiantianya/ruoyi-vue-pro)  | [![Gitee star](https://gitee.com/zhijiantianya/ruoyi-vue-pro/badge/star.svg?theme=white)](https://gitee.com/zhijiantianya/ruoyi-vue-pro) [![GitHub stars](https://img.shields.io/github/stars/YunaiV/ruoyi-vue-pro.svg?style=social&label=Stars)](https://github.com/YunaiV/ruoyi-vue-pro)       | 基于 Spring Boot 多模块架构        |
-| [yudao-cloud](https://gitee.com/zhijiantianya/yudao-cloud)      | [![Gitee star](https://gitee.com/zhijiantianya/yudao-cloud/badge/star.svg?theme=white)](https://gitee.com/zhijiantianya/yudao-cloud) [![GitHub stars](https://img.shields.io/github/stars/YunaiV/yudao-cloud.svg?style=social&label=Stars)](https://github.com/YunaiV/yudao-cloud)               | 基于 Spring Cloud 微服务架构       |
+| [antian-cloud](https://gitee.com/zhijiantianya/yudao-cloud)      | [![Gitee star](https://gitee.com/zhijiantianya/yudao-cloud/badge/star.svg?theme=white)](https://gitee.com/zhijiantianya/yudao-cloud) [![GitHub stars](https://img.shields.io/github/stars/YunaiV/yudao-cloud.svg?style=social&label=Stars)](https://github.com/YunaiV/yudao-cloud)               | 基于 Spring Cloud 微服务架构       |
 | [Spring-Boot-Labs](https://gitee.com/yudaocode/SpringBoot-Labs) | [![Gitee star](https://gitee.com/yudaocode/SpringBoot-Labs/badge/star.svg?theme=white)](https://gitee.com/zhijiantianya/yudao-cloud) [![GitHub stars](https://img.shields.io/github/stars/yudaocode/SpringBoot-Labs.svg?style=social&label=Stars)](https://github.com/yudaocode/SpringBoot-Labs) | 系统学习 Spring Boot & Cloud 专栏 |
 
 ### 前端项目
 
 | 项目                                                                         | Star                                                                                                                                                                                                                                                                                                                     | 简介                                     |
 |----------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------|
-| [yudao-ui-admin-vue3](https://gitee.com/yudaocode/yudao-ui-admin-vue3)     | [![Gitee star](https://gitee.com/yudaocode/yudao-ui-admin-vue3/badge/star.svg?theme=white)](https://gitee.com/yudaocode/yudao-ui-admin-vue3) [![GitHub stars](https://img.shields.io/github/stars/yudaocode/yudao-ui-admin-vue3.svg?style=social&label=Stars)](https://github.com/yudaocode/yudao-ui-admin-vue3)         | 基于 Vue3 + element-plus 实现的管理后台         |
-| [yudao-ui-admin-vben](https://gitee.com/yudaocode/yudao-ui-admin-vben)     | [![Gitee star](https://gitee.com/yudaocode/yudao-ui-admin-vben/badge/star.svg?theme=white)](https://gitee.com/yudaocode/yudao-ui-admin-vben) [![GitHub stars](https://img.shields.io/github/stars/yudaocode/yudao-ui-admin-vben.svg?style=social&label=Stars)](https://github.com/yudaocode/yudao-ui-admin-vben)         | 基于 Vue3 + vben(ant-design-vue) 实现的管理后台 |
-| [yudao-mall-uniapp](https://gitee.com/yudaocode/yudao-mall-uniapp)         | [![Gitee star](https://gitee.com/yudaocode/yudao-mall-uniapp/badge/star.svg?theme=white)](https://gitee.com/yudaocode/yudao-mall-uniapp) [![GitHub stars](https://img.shields.io/github/stars/yudaocode/yudao-mall-uniapp.svg?style=social&label=Stars)](https://github.com/yudaocode/yudao-mall-uniapp)                 | 基于 uni-app 实现的商城小程序                    |
-| [yudao-ui-admin-vue2](https://gitee.com/yudaocode/yudao-ui-admin-vue2)     | [![Gitee star](https://gitee.com/yudaocode/yudao-ui-admin-vue2/badge/star.svg?theme=white)](https://gitee.com/yudaocode/yudao-ui-admin-vue2) [![GitHub stars](https://img.shields.io/github/stars/yudaocode/yudao-ui-admin-vue2.svg?style=social&label=Stars)](https://github.com/yudaocode/yudao-ui-admin-vue2)         | 基于 Vue2 + element-ui 实现的管理后台           |
-| [yudao-ui-admin-uniapp](https://gitee.com/yudaocode/yudao-ui-admin-uniapp) | [![Gitee star](https://gitee.com/yudaocode/yudao-ui-admin-uniapp/badge/star.svg?theme=white)](https://gitee.com/yudaocode/yudao-ui-admin-uniapp) [![GitHub stars](https://img.shields.io/github/stars/yudaocode/yudao-ui-admin-uniapp.svg?style=social&label=Stars)](https://github.com/yudaocode/yudao-ui-admin-uniapp) | 基于 Vue2 + element-ui 实现的管理后台           |
-| [yudao-ui-go-view](https://gitee.com/yudaocode/yudao-ui-go-view)           | [![Gitee star](https://gitee.com/yudaocode/yudao-ui-go-view/badge/star.svg?theme=white)](https://gitee.com/yudaocode/yudao-ui-go-view) [![GitHub stars](https://img.shields.io/github/stars/yudaocode/yudao-ui-go-view.svg?style=social&label=Stars)](https://github.com/yudaocode/yudao-ui-go-view)                     | 基于 Vue3 + naive-ui 实现的大屏报表             |
+| [antian-ui-admin-vue3](https://gitee.com/yudaocode/yudao-ui-admin-vue3)     | [![Gitee star](https://gitee.com/yudaocode/yudao-ui-admin-vue3/badge/star.svg?theme=white)](https://gitee.com/yudaocode/yudao-ui-admin-vue3) [![GitHub stars](https://img.shields.io/github/stars/yudaocode/yudao-ui-admin-vue3.svg?style=social&label=Stars)](https://github.com/yudaocode/yudao-ui-admin-vue3)         | 基于 Vue3 + element-plus 实现的管理后台         |
+| [antian-ui-admin-vben](https://gitee.com/yudaocode/yudao-ui-admin-vben)     | [![Gitee star](https://gitee.com/yudaocode/yudao-ui-admin-vben/badge/star.svg?theme=white)](https://gitee.com/yudaocode/yudao-ui-admin-vben) [![GitHub stars](https://img.shields.io/github/stars/yudaocode/yudao-ui-admin-vben.svg?style=social&label=Stars)](https://github.com/yudaocode/yudao-ui-admin-vben)         | 基于 Vue3 + vben(ant-design-vue) 实现的管理后台 |
+| [antian-mall-uniapp](https://gitee.com/yudaocode/yudao-mall-uniapp)         | [![Gitee star](https://gitee.com/yudaocode/yudao-mall-uniapp/badge/star.svg?theme=white)](https://gitee.com/yudaocode/yudao-mall-uniapp) [![GitHub stars](https://img.shields.io/github/stars/yudaocode/yudao-mall-uniapp.svg?style=social&label=Stars)](https://github.com/yudaocode/yudao-mall-uniapp)                 | 基于 uni-app 实现的商城小程序                    |
+| [antian-ui-admin-vue2](https://gitee.com/yudaocode/yudao-ui-admin-vue2)     | [![Gitee star](https://gitee.com/yudaocode/yudao-ui-admin-vue2/badge/star.svg?theme=white)](https://gitee.com/yudaocode/yudao-ui-admin-vue2) [![GitHub stars](https://img.shields.io/github/stars/yudaocode/yudao-ui-admin-vue2.svg?style=social&label=Stars)](https://github.com/yudaocode/yudao-ui-admin-vue2)         | 基于 Vue2 + element-ui 实现的管理后台           |
+| [antian-ui-admin-uniapp](https://gitee.com/yudaocode/yudao-ui-admin-uniapp) | [![Gitee star](https://gitee.com/yudaocode/yudao-ui-admin-uniapp/badge/star.svg?theme=white)](https://gitee.com/yudaocode/yudao-ui-admin-uniapp) [![GitHub stars](https://img.shields.io/github/stars/yudaocode/yudao-ui-admin-uniapp.svg?style=social&label=Stars)](https://github.com/yudaocode/yudao-ui-admin-uniapp) | 基于 Vue2 + element-ui 实现的管理后台           |
+| [antian-ui-go-view](https://gitee.com/yudaocode/yudao-ui-go-view)           | [![Gitee star](https://gitee.com/yudaocode/yudao-ui-go-view/badge/star.svg?theme=white)](https://gitee.com/yudaocode/yudao-ui-go-view) [![GitHub stars](https://img.shields.io/github/stars/yudaocode/yudao-ui-go-view.svg?style=social&label=Stars)](https://github.com/yudaocode/yudao-ui-go-view)                     | 基于 Vue3 + naive-ui 实现的大屏报表             |
 
 ## 😎 开源协议
 
@@ -378,28 +378,28 @@
 
 | 项目                    | 说明                 |
 |-----------------------|--------------------|
-| `yudao-dependencies`  | Maven 依赖版本管理       |
-| `yudao-framework`     | Java 框架拓展          |
-| `yudao-server`        | 管理后台 + 用户 APP 的服务端 |
-| `yudao-module-system` | 系统功能的 Module 模块    |
-| `yudao-module-infra`  | 基础设施的 Module 模块    |
-| `yudao-module-bpm`    | 工作流程的 Module 模块    |
-| `yudao-module-pay`    | 支付系统的 Module 模块    |
-| `yudao-module-report` | 大屏报表 Module 模块     |
-| `yudao-module-mp`     | 微信公众号的 Module 模块   |
-| `yudao-module-mall`   | 商城系统的 Module 模块    |
-| `yudao-module-member` | 会员中心的 Module 模块    |
-| `yudao-module-erp`    | ERP 系统的 Module 模块  |
-| `yudao-module-wms`    | WMS 系统的 Module 模块  |
-| `yudao-module-crm`    | CRM 系统的 Module 模块  |
-| `yudao-module-mes`    | MES 系统的 Module 模块  |
-| `yudao-module-hrm`    | HRM 人力资源管理的 Module 模块 |
-| `yudao-module-fms`    | FMS 财务管理的 Module 模块 |
-| `yudao-module-pms`    | PMS 项目管理的 Module 模块 |
-| `yudao-module-oa`     | OA 协同办公的 Module 模块 |
-| `yudao-module-ai`     | AI 大模型的 Module 模块  |
-| `yudao-module-iot`    | IoT 物联网的 Module 模块 |
-| `yudao-module-im`     | IM 即时通讯的 Module 模块 |
+| `antian-dependencies`  | Maven 依赖版本管理       |
+| `antian-framework`     | Java 框架拓展          |
+| `antian-server`        | 管理后台 + 用户 APP 的服务端 |
+| `antian-module-system` | 系统功能的 Module 模块    |
+| `antian-module-infra`  | 基础设施的 Module 模块    |
+| `antian-module-bpm`    | 工作流程的 Module 模块    |
+| `antian-module-pay`    | 支付系统的 Module 模块    |
+| `antian-module-report` | 大屏报表 Module 模块     |
+| `antian-module-mp`     | 微信公众号的 Module 模块   |
+| `antian-module-mall`   | 商城系统的 Module 模块    |
+| `antian-module-member` | 会员中心的 Module 模块    |
+| `antian-module-erp`    | ERP 系统的 Module 模块  |
+| `antian-module-wms`    | WMS 系统的 Module 模块  |
+| `antian-module-crm`    | CRM 系统的 Module 模块  |
+| `antian-module-mes`    | MES 系统的 Module 模块  |
+| `antian-module-hrm`    | HRM 人力资源管理的 Module 模块 |
+| `antian-module-fms`    | FMS 财务管理的 Module 模块 |
+| `antian-module-pms`    | PMS 项目管理的 Module 模块 |
+| `antian-module-oa`     | OA 协同办公的 Module 模块 |
+| `antian-module-ai`     | AI 大模型的 Module 模块  |
+| `antian-module-iot`    | IoT 物联网的 Module 模块 |
+| `antian-module-im`     | IM 即时通讯的 Module 模块 |
 
 ### 框架
 

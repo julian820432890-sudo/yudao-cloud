@@ -2,7 +2,7 @@
 
 基于 [Sentinel](https://sentinelguard.io/zh-cn/docs/introduction.html) + [Spring Cloud Alibaba](https://sca.aliyun.com/) 的可选接入材料，演示网关限流、服务限流、Feign 熔断降级，规则持久化在 Nacos 中。项目默认**不启用**：本目录不是 Maven 模块，不参与默认构建，主工程的依赖、配置、业务代码都不受影响。
 
-项目的 `yudao-spring-boot-starter-protection` 组件本身**不包含** Sentinel，它提供的是基于 Redis（Redisson）的 `@RateLimiter` 请求限流、`@Idempotent` 幂等、Lock4j 分布式锁，接入本材料后保持不变，可以和 Sentinel 同时使用。
+项目的 `antian-spring-boot-starter-protection` 组件本身**不包含** Sentinel，它提供的是基于 Redis（Redisson）的 `@RateLimiter` 请求限流、`@Idempotent` 幂等、Lock4j 分布式锁，接入本材料后保持不变，可以和 Sentinel 同时使用。
 
 示例只接入 `gateway-server`、`system-server` 两个服务，`infra-server` 只提供被调用的 RPC 接口：
 
@@ -11,22 +11,22 @@
 
 接入步骤、验证方式及使用限制，请阅读项目文档《服务保障》，本文只列出材料及分支适用范围：
 
-- 微服务项目 yudao-cloud：<https://cloud.iocoder.cn/server-protection/>
+- 微服务项目 antian-cloud：<https://cloud.iocoder.cn/server-protection/>
 - 单体项目 ruoyi-vue-pro：<https://doc.iocoder.cn/server-protection/>
 
 ## 1. 材料清单
 
 | 文件 | 说明 | 目标位置 |
 | --- | --- | --- |
-| `dependencies.xml` | Maven 依赖片段：第 1 段 Sentinel + Nacos 数据源，第 2 段 Spring Cloud Gateway 适配 | 第 1 段添加到 `yudao-gateway/pom.xml`、`yudao-module-system-server/pom.xml`；第 2 段只添加到 `yudao-gateway/pom.xml` |
+| `dependencies.xml` | Maven 依赖片段：第 1 段 Sentinel + Nacos 数据源，第 2 段 Spring Cloud Gateway 适配 | 第 1 段添加到 `antian-gateway/pom.xml`、`antian-module-system-server/pom.xml`；第 2 段只添加到 `antian-gateway/pom.xml` |
 | `dependencies-jdk25.xml` | 仅 `master-jdk25` 分支按条件补充的 `spring-boot-data-commons` 依赖片段，见下面的《2. 分支适用范围》 | 满足条件时，添加到对应服务（例如说 `system-server`、`infra-server`）的 `pom.xml`，`gateway-server` 不适用 |
 | `sentinel.yaml` | 按服务分为两段：Dashboard、Nacos 规则数据源，以及 `system-server` 的 `feign.sentinel.enabled` | 分别合并到两个服务的 `application-{profile}.yaml` 或 Nacos 配置 |
 | `nacos/*.json` | 4 个规则文件，文件名就是 Nacos 中的 Data ID（含 `.json` 后缀），Group 为 `SENTINEL_GROUP` | 在 Nacos 服务自己的命名空间（默认 `dev`）中创建同名配置，内容为文件内容 |
-| `src/main/java/.../gateway/sentineldemo/` | `DemoSentinelGatewayConfiguration`：网关被阻断时的 `BlockRequestHandler` | `yudao-gateway/src/main/java` 的同名包 |
-| `src/main/java/.../system/sentineldemo/` | 示例 Feign 客户端 `DemoSentinelInfraApi` 及其 `DemoSentinelInfraApiFallbackFactory`，配置类 `DemoSentinelConfiguration`（含 URL 资源被阻断时的 `BlockExceptionHandler`），示例接口 `controller/admin/DemoSentinelController` | `yudao-module-system-server/src/main/java` 的同名包 |
-| `src/main/java/.../infra/sentineldemo/` | 被调用的 RPC 接口 `DemoSentinelRpcController`，模拟慢调用、业务错误 | `yudao-module-infra-server/src/main/java` 的同名包 |
+| `src/main/java/.../gateway/sentineldemo/` | `DemoSentinelGatewayConfiguration`：网关被阻断时的 `BlockRequestHandler` | `antian-gateway/src/main/java` 的同名包 |
+| `src/main/java/.../system/sentineldemo/` | 示例 Feign 客户端 `DemoSentinelInfraApi` 及其 `DemoSentinelInfraApiFallbackFactory`，配置类 `DemoSentinelConfiguration`（含 URL 资源被阻断时的 `BlockExceptionHandler`），示例接口 `controller/admin/DemoSentinelController` | `antian-module-system-server/src/main/java` 的同名包 |
+| `src/main/java/.../infra/sentineldemo/` | 被调用的 RPC 接口 `DemoSentinelRpcController`，模拟慢调用、业务错误 | `antian-module-infra-server/src/main/java` 的同名包 |
 
-示例的包名分别在 `gateway-server`（`cn.iocoder.yudao.gateway`）、`system-server`、`infra-server` 的扫描范围内；`DemoSentinelController` 放在 `controller.admin` 子包下，才会添加 `/admin-api` 前缀。不修改 `yudao-module-infra-api` 模块、已有的 `RpcConfiguration`、Feign 客户端及安全配置。
+示例的包名分别在 `gateway-server`（`cn.iocoder.antian.gateway`）、`system-server`、`infra-server` 的扫描范围内；`DemoSentinelController` 放在 `controller.admin` 子包下，才会添加 `/admin-api` 前缀。不修改 `antian-module-infra-api` 模块、已有的 `RpcConfiguration`、Feign 客户端及安全配置。
 
 规则 JSON 是严格的 JSON，不能包含注释，字段说明见项目文档。资源名与示例一一对应：
 

@@ -4,8 +4,8 @@
 
     只适用于微服务项目的 master-jdk25 分支（Spring Boot 4.1.2 + Spring Cloud OpenFeign 5.0.2），并且只在下面的条件同时满足时补充：
       - 该服务注册了 Feign 客户端。不只是示例自己的 DemoSeataAccountApi，项目组件注册的 Feign 客户端也算，示例的两个服务都需要检查：
-          - 发起方 yudao-module-system/yudao-module-system-server/pom.xml：DemoSeataAccountApi 等 Feign 客户端；
-          - 参与方 yudao-module-infra/yudao-module-infra-server/pom.xml：多租户组件 YudaoTenantRpcAutoConfiguration 注册的 TenantCommonApi 等 Feign 客户端；
+          - 发起方 antian-module-system/antian-module-system-server/pom.xml：DemoSeataAccountApi 等 Feign 客户端；
+          - 参与方 antian-module-infra/antian-module-infra-server/pom.xml：多租户组件 AntianTenantRpcAutoConfiguration 注册的 TenantCommonApi 等 Feign 客户端；
       - 该服务启动时的 classpath 中有 org.springframework.data.domain.Pageable（例如说 Redis 传递引入的 spring-data-commons），
         却没有 Spring Boot 4 拆分出去的 org.springframework.boot.data.autoconfigure.web.DataWebProperties（spring-boot-data-commons 模块）。
 

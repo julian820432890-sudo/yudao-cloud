@@ -4,35 +4,35 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>cn.iocoder.cloud</groupId>
-    <artifactId>yudao</artifactId>
+    <artifactId>antian</artifactId>
     <version>${revision}</version>
     <packaging>pom</packaging>
     <modules>
-        <module>yudao-dependencies</module>
-        <module>yudao-gateway</module>
-        <module>yudao-framework</module>
+        <module>antian-dependencies</module>
+        <module>antian-gateway</module>
+        <module>antian-framework</module>
         <!-- Server 主项目 -->
-        <module>yudao-server</module>
+        <module>antian-server</module>
         <!--  各种 module 拓展 -->
-        <module>yudao-module-system</module>
-        <module>yudao-module-infra</module>
-        <module>yudao-module-member</module>
-        <module>yudao-module-bpm</module>
-        <module>yudao-module-pay</module>
-        <module>yudao-module-report</module>
-        <module>yudao-module-mp</module>
-        <module>yudao-module-mall</module>
-        <module>yudao-module-crm</module>
-        <module>yudao-module-erp</module>
-        <module>yudao-module-iot</module>
-        <module>yudao-module-mes</module>
-        <module>yudao-module-wms</module>
-        <module>yudao-module-im</module>
-        <module>yudao-module-ai</module>
-        <module>yudao-module-hrm</module>
-        <module>yudao-module-fms</module>
-        <module>yudao-module-pms</module>
-        <module>yudao-module-oa</module>
+        <module>antian-module-system</module>
+        <module>antian-module-infra</module>
+        <module>antian-module-member</module>
+        <module>antian-module-bpm</module>
+        <module>antian-module-pay</module>
+        <module>antian-module-report</module>
+        <module>antian-module-mp</module>
+        <module>antian-module-mall</module>
+        <module>antian-module-crm</module>
+        <module>antian-module-erp</module>
+        <module>antian-module-iot</module>
+        <module>antian-module-mes</module>
+        <module>antian-module-wms</module>
+        <module>antian-module-im</module>
+        <module>antian-module-ai</module>
+        <module>antian-module-hrm</module>
+        <module>antian-module-fms</module>
+        <module>antian-module-pms</module>
+        <module>antian-module-oa</module>
     </modules>
 
     <name>${project.artifactId}</name>
@@ -59,7 +59,7 @@
         <dependencies>
             <dependency>
                 <groupId>cn.iocoder.cloud</groupId>
-                <artifactId>yudao-dependencies</artifactId>
+                <artifactId>antian-dependencies</artifactId>
                 <version>${revision}</version>
                 <type>pom</type>
                 <scope>import</scope>
