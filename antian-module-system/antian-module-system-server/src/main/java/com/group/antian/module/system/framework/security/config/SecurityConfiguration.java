@@ -32,6 +32,9 @@ public class SecurityConfiguration {
                         .requestMatchers("/actuator/**").permitAll();
                 // RPC 服务的安全配置
                 registry.requestMatchers(ApiConstants.PREFIX + "/**").permitAll();
+                // 内嵌公共支持沿用原有 RPC 和文件读取路径。
+                registry.requestMatchers("/rpc-api/infra/**").permitAll();
+                registry.requestMatchers(buildAdminApi("/infra/file/*/get/**")).permitAll();
             }
 
         };

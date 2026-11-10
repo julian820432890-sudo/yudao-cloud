@@ -31,7 +31,7 @@ public interface RpcConstants {
      *
      * 注意，需要保证和 spring.application.name 保持一致
      */
-    String INFRA_NAME = "infra-server";
+    String INFRA_NAME = SYSTEM_NAME; // 公共支持已内嵌到系统服务
     /**
      * infra 服务的前缀
      */

@@ -49,5 +49,8 @@ mybatis-plus:
 
 # 安天配置项，设置当前项目所有自定义的配置
 antian:
+  file:
+    public-base-url: ""
+  system-only: false # Generic CRUD fixtures; branch scope is tested separately.
   info:
     base-package: com.group.antian.module

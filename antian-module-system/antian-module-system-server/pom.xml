@@ -30,13 +30,7 @@
             <artifactId>antian-module-system-api</artifactId>
             <version>${revision}</version>
         </dependency>
-        <dependency>
-            <groupId>com.group.cloud</groupId>
-            <artifactId>antian-module-infra-api</artifactId>
-            <version>${revision}</version>
-        </dependency>
-
-        <!-- 业务组件 -->
+<!-- 业务组件 -->
         <dependency>
             <groupId>com.group.cloud</groupId>
             <artifactId>antian-spring-boot-starter-biz-data-permission</artifactId>
@@ -80,12 +74,7 @@
         </dependency>
 
         <!-- Config 配置中心相关 -->
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
-        </dependency>
-
-        <!-- Job 定时任务相关 -->
+<!-- Job 定时任务相关 -->
         <dependency>
             <groupId>com.group.cloud</groupId>
             <artifactId>antian-spring-boot-starter-job</artifactId>
@@ -162,6 +151,13 @@
             <groupId>org.dromara.hutool</groupId>
             <artifactId>hutool-extra</artifactId> <!-- 邮件 -->
         </dependency>
+
+        <!-- 系统内嵌的文件上传、实时消息等公共支持 -->
+        <dependency><groupId>com.group.cloud</groupId><artifactId>antian-spring-boot-starter-websocket</artifactId></dependency>
+        <dependency><groupId>commons-net</groupId><artifactId>commons-net</artifactId></dependency>
+        <dependency><groupId>com.github.mwiede</groupId><artifactId>jsch</artifactId></dependency>
+        <dependency><groupId>software.amazon.awssdk</groupId><artifactId>s3</artifactId></dependency>
+        <dependency><groupId>org.apache.tika</groupId><artifactId>tika-core</artifactId></dependency>
 
     </dependencies>
 

@@ -2,7 +2,7 @@
 // antian-cloud 的 Jenkins 部署流水线：Maven 打包某一个服务的 Jar，再通过 SSH 部署到一台 Linux 服务器
 //
 
-// 1. 每个服务新建一个「Pipeline（流水线）」类型的 Job，Job 名称就是服务名：gateway-server、system-server、infra-server
+// 1. 每个服务新建一个「Pipeline（流水线）」类型的 Job，Job 名称就是服务名：gateway-server、system-server
 //    都选择「Pipeline script from SCM」，Script Path 填写 script/jenkins/Jenkinsfile
 // 2. Jenkins 中配置 Tools（jdk17、maven3），以及两个凭据（antian-deploy-ssh、antian-deploy-known-hosts）
 // 3. 服务器上提前创建 <DEPLOY_BASE_DIR>/<服务名> 目录，并放入运行时配置 app.env（Nacos、数据库、Redis 的地址与密码）
@@ -260,13 +260,11 @@ pipeline {
                         'gateway-server': [module: 'antian-gateway',
                                            jar: 'antian-gateway/target/antian-gateway.jar', port: '48080'],
                         'system-server' : [module: 'antian-module-system/antian-module-system-server',
-                                           jar: 'antian-module-system/antian-module-system-server/target/antian-module-system-server.jar', port: '48081'],
-                        'infra-server'  : [module: 'antian-module-infra/antian-module-infra-server',
-                                           jar: 'antian-module-infra/antian-module-infra-server/target/antian-module-infra-server.jar', port: '48082']
+                                           jar: 'antian-module-system/antian-module-system-server/target/antian-module-system-server.jar', port: '48081']
                     ]
                     def service = services[env.JOB_BASE_NAME]
                     if (service == null) {
-                        error("Job 名称必须是 gateway-server、system-server、infra-server 之一，当前是 ${env.JOB_BASE_NAME}")
+                        error("Job 名称必须是 gateway-server、system-server 之一，当前是 ${env.JOB_BASE_NAME}")
                     }
                     env.APP_NAME = env.JOB_BASE_NAME
                     env.APP_MODULE = service.module

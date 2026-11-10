@@ -1,16 +1,31 @@
+# 安天智能物流 · 系统管理版
 
-## 平台简介
+当前分支：`master-jdk17-base-system`，从 `master-jdk17-base` 分出。
 
-* Java 后端：JDK 17 + Spring Boot 3.5
-* 后端采用 Spring Cloud Alibaba 微服务架构，注册中心 + 配置中心 Nacos，定时任务 XXL-Job，服务保障 Sentinel，服务网关 Gateway，分布式事务 Seata
-* 数据库可使用 MySQL、Oracle、PostgreSQL、SQL Server、MariaDB，以及达梦、人大金仓、瀚高等国产数据库，基于 MyBatis Plus、Redis + Redisson 操作
-* 消息队列可使用 Event、Redis、RabbitMQ、Kafka、RocketMQ 等
-* 权限认证使用 Spring Security & Token & Redis，支持多终端、多种用户的认证系统，支持 SSO 单点登录
-* 支持加载动态权限菜单，按钮级别权限控制，Redis 缓存提升性能
-* 支持 SaaS 多租户，可自定义每个租户的权限，提供透明化的多租户底层封装
-* 工作流使用 Flowable，支持动态表单、在线设计流程、会签 / 或签、多种任务分配方式
-* 高效率开发，使用代码生成器可以一键生成 Java、Vue 前后端代码、SQL 脚本、接口文档，支持单表、树表、主子表
-* 实时通信，采用 Spring WebSocket 实现，内置 Token 身份校验，支持 WebSocket 集群
-* 集成微信小程序、微信公众号、企业微信、钉钉等三方登陆，集成支付宝、微信等支付与退款
-* 集成阿里云、腾讯云等短信渠道，集成 MinIO、阿里云、腾讯云、七牛云等云存储服务
-* 集成报表设计器、大屏设计器，通过拖拽即可生成酷炫的报表与大屏
+## 保留范围
+
+- `antian-module-system`：租户、用户、角色、菜单、部门、岗位、字典、通知、审计日志、OAuth2、社交登录及管理概览。
+- `antian-gateway`：仅转发系统管理、系统文件上传和实时通知连接。
+- `antian-framework`、`antian-dependencies`：公共组件和统一依赖。
+- 文件、参数配置、API 日志及消息发送的必要实现内嵌在系统模块中，兼容原文件配置包名和接口路径，不再启动独立的 infra 服务。
+
+其他业务模块及页面已在此分支移除。原完整分支保留，现有数据库表和授权记录不删除。
+
+## 本地启动
+
+1. 使用 JDK 17 或 21、Maven 3.9，先启动 MySQL、Redis、Nacos（`dev` 命名空间）。
+2. 本地数据库连接见系统模块的 `application-local.yaml`；现有 `ruoyi-vue-pro` 可直接继续使用。
+3. 仅为新建空数据库初始化时使用 `sql/mysql/init-system.sql`，现有数据库不要重新导入。
+4. 在项目根目录执行 `mvn clean package -DskipTests`。
+5. IntelliJ IDEA 重新加载 Maven 项目后，运行 `Local System` 和 `Local Gateway`，或使用 `Antian Local` 组合配置。
+6. 系统服务端口 `48081`，网关端口 `48080`；服务只在本机监听的参数保留在 IDEA 本地运行配置中。
+7. 前端使用 `master-base-system` 分支，在其目录执行 `pnpm install`、`pnpm dev`，访问 `http://localhost`。
+
+也可运行打包后的两个 Jar；启动时附加 `--server.address=127.0.0.1 --spring.cloud.nacos.discovery.ip=127.0.0.1` 用于本机开发。
+
+本分支从仓库内配置启动，不加载共享 Nacos 业务配置，避免完整版本的路由覆盖精简配置；服务发现仍使用 Nacos。
+文件读取公开地址默认经网关 `http://127.0.0.1:48080`，可用 `ANTIAN_FILE_PUBLIC_URL` 环境变量覆盖。
+
+## 登录与权限
+
+现有租户、账号及角色直接保留。`superAdmin` 的系统管理菜单和租户查询、新增、编辑、导出、删除权限保留；普通租户仍隔离，内置系统租户仍受保护。第三方授权登录需要原企业的有效配置。

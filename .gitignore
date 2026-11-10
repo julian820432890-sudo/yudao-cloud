@@ -22,7 +22,12 @@ target/
 .springBeans
 
 ### IntelliJ IDEA ###
-.idea
+.idea/*
+!.idea/runConfigurations/
+.idea/runConfigurations/*
+!.idea/runConfigurations/Antian_Local.xml
+!.idea/runConfigurations/Local_System.xml
+!.idea/runConfigurations/Local_Gateway.xml
 *.iws
 *.iml
 *.ipr

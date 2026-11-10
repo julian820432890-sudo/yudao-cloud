@@ -12,7 +12,6 @@ spring:
   config:
     import:
       - optional:classpath:application-${spring.profiles.active}.yaml # 加载【本地】配置
-      - optional:nacos:${spring.application.name}-${spring.profiles.active}.yaml # 加载【Nacos】的配置
 
   # Servlet 配置
   servlet:
@@ -192,3 +191,13 @@ antian:
     end-code: 9999 # 这里配置 9999 的原因是，测试方便。
 
 debug: false
+
+---
+antian:
+  system-only: true
+  file:
+    public-base-url: ${ANTIAN_FILE_PUBLIC_URL:http://127.0.0.1:48080}
+  websocket:
+    enable: true
+    path: /infra/ws
+    sender-type: local

@@ -1,0 +1,14 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Local System" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <option name="ALTERNATIVE_JRE_PATH" value="21" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+    <module name="antian-module-system-server" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.group.antian.module.system.SystemServerApplication" />
+    <option name="ACTIVE_PROFILES" value="local" />
+    <option name="VM_PARAMETERS" value="-Xms128m -Xmx512m -Dfile.encoding=UTF-8" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+    <option name="PROGRAM_PARAMETERS" value="--server.address=127.0.0.1 --spring.cloud.nacos.discovery.ip=127.0.0.1" />
+    <shortenClasspath name="ARGS_FILE" />
+    <method v="2"><option name="Make" enabled="true" /></method>
+  </configuration>
+</component>

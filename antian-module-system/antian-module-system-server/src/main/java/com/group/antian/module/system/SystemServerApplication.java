@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *
  * @author 安天源码
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.group.antian.module.system", "com.group.antian.module.infra"})
 public class SystemServerApplication {
 
     public static void main(String[] args) {

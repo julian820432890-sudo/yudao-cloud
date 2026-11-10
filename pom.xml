@@ -9,30 +9,9 @@
     <packaging>pom</packaging>
     <modules>
         <module>antian-dependencies</module>
-        <module>antian-gateway</module>
         <module>antian-framework</module>
-        <!-- Server 主项目 -->
-        <module>antian-server</module>
-        <!--  各种 module 拓展 -->
         <module>antian-module-system</module>
-        <module>antian-module-infra</module>
-        <module>antian-module-member</module>
-        <module>antian-module-bpm</module>
-        <module>antian-module-pay</module>
-        <module>antian-module-report</module>
-        <module>antian-module-mp</module>
-        <module>antian-module-mall</module>
-        <module>antian-module-crm</module>
-        <module>antian-module-erp</module>
-        <module>antian-module-iot</module>
-        <module>antian-module-mes</module>
-        <module>antian-module-wms</module>
-        <module>antian-module-im</module>
-        <module>antian-module-ai</module>
-        <module>antian-module-hrm</module>
-        <module>antian-module-fms</module>
-        <module>antian-module-pms</module>
-        <module>antian-module-oa</module>
+        <module>antian-gateway</module>
     </modules>
 
     <name>${project.artifactId}</name>

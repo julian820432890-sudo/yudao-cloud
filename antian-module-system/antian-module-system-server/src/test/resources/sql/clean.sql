@@ -31,3 +31,9 @@ DELETE FROM "system_mail_template";
 DELETE FROM "system_mail_log";
 DELETE FROM "system_notify_template";
 DELETE FROM "system_notify_message";
+
+DELETE FROM "infra_api_access_log";
+DELETE FROM "infra_api_error_log";
+DELETE FROM "infra_config";
+DELETE FROM "infra_file";
+DELETE FROM "infra_file_config";

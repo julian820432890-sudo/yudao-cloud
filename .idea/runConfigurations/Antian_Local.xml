@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Antian Local" type="CompoundRunConfigurationType">
+    <toRun name="Local Gateway" type="SpringBootApplicationConfigurationType" />
+    <toRun name="Local System" type="SpringBootApplicationConfigurationType" />
+    <method v="2" />
+  </configuration>
+</component>

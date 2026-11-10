@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +39,9 @@ import static com.group.antian.module.system.enums.ErrorCodeConstants.*;
 @Service
 @Slf4j
 public class MenuServiceImpl implements MenuService {
+
+    @Value("${antian.system-only:false}")
+    private boolean systemOnly;
 
     @Resource
     private MenuMapper menuMapper;
@@ -124,7 +128,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<MenuDO> getMenuList() {
-        return menuMapper.selectList();
+        return filterSystemMenus(menuMapper.selectList());
     }
 
     @Override
@@ -184,7 +188,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<MenuDO> getMenuList(MenuListReqVO reqVO) {
-        return menuMapper.selectList(reqVO);
+        return filterSystemMenus(menuMapper.selectList(reqVO));
     }
 
     @Override
@@ -209,7 +213,30 @@ public class MenuServiceImpl implements MenuService {
         // 先去重，避免同一编号落在不同批次后被重复返回
         List<MenuDO> menus = new ArrayList<>(ids.size());
         CollUtil.split(new LinkedHashSet<>(ids), 1000).forEach(batchIds -> menus.addAll(menuMapper.selectByIds(batchIds)));
-        return menus;
+        return filterSystemMenus(menus);
+    }
+
+    /** 仅在精简分支启用；按整棵系统菜单树过滤，不改变数据库授权记录。 */
+    private List<MenuDO> filterSystemMenus(List<MenuDO> menus) {
+        if (!systemOnly || CollUtil.isEmpty(menus)) return menus;
+        List<MenuDO> allMenus = menuMapper.selectList();
+        Set<Long> allowedIds = new HashSet<>();
+        for (MenuDO menu : allMenus) {
+            if (Objects.equals(menu.getParentId(), ID_ROOT)
+                    && (Objects.equals(menu.getId(), 1L) || "system".equals(menu.getPath()) || "/system".equals(menu.getPath()))) {
+                allowedIds.add(menu.getId());
+            }
+        }
+        boolean added;
+        do {
+            added = false;
+            for (MenuDO menu : allMenus) {
+                if (allowedIds.contains(menu.getParentId())) added |= allowedIds.add(menu.getId());
+            }
+        } while (added);
+        List<MenuDO> result = new ArrayList<>();
+        for (MenuDO menu : menus) if (allowedIds.contains(menu.getId())) result.add(menu);
+        return result;
     }
 
     /**
