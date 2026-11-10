@@ -1,4 +1,4 @@
-# 芋道 Cloud 微服务版 Docker Compose 入门部署：gateway + system-server + infra-server + 前端 Nginx + MySQL + Redis + Nacos
+# 安天 Cloud 微服务版 Docker Compose 入门部署：gateway + system-server + infra-server + 前端 Nginx + MySQL + Redis + Nacos
 # 使用说明见同目录 README.md；需 Docker Compose V2.20.2 及以上（docker compose 命令）
 # 本文件中的相对路径，均相对于本文件所在目录，与执行命令时的当前目录无关
 

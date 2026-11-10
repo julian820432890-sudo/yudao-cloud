@@ -1,7 +1,7 @@
 #!groovy
 // antian-cloud 的 Jenkins 部署流水线：Maven 打包某一个服务的 Jar，再通过 SSH 部署到一台 Linux 服务器
 //
-// 使用说明见《Jenkins 部署》文档：https://cloud.iocoder.cn/deployment-jenkins/
+
 // 1. 每个服务新建一个「Pipeline（流水线）」类型的 Job，Job 名称就是服务名：gateway-server、system-server、infra-server
 //    都选择「Pipeline script from SCM」，Script Path 填写 script/jenkins/Jenkinsfile
 // 2. Jenkins 中配置 Tools（jdk17、maven3），以及两个凭据（antian-deploy-ssh、antian-deploy-known-hosts）

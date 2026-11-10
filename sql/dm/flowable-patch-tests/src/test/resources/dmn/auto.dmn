@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/"
-             id="autoRules" name="自动部署测试" namespace="http://www.iocoder.cn/dm-test">
+             id="autoRules" name="自动部署测试" namespace="http://www.antianwl.com/dm-test">
     <decision id="dmAutoOne" name="自动决策一">
         <decisionTable id="tableOne" hitPolicy="FIRST">
             <input id="inputOne"><inputExpression id="expressionOne" typeRef="number"><text>amount</text></inputExpression></input>

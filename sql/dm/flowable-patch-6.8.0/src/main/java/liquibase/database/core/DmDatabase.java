@@ -6,7 +6,7 @@ import liquibase.exception.DatabaseException;
 /**
  * 达梦数据库的 Liquibase 适配，复用 Oracle 的字段类型与建表语法
  *
- * @author 芋道源码
+ * @author 安天源码
  */
 public class DmDatabase extends OracleDatabase {
 
