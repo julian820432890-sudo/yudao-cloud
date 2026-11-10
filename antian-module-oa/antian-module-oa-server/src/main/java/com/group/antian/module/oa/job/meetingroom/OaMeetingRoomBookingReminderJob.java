@@ -1,0 +1,32 @@
+package com.group.antian.module.oa.job.meetingroom;
+
+import cn.hutool.core.util.StrUtil;
+import com.xxl.job.core.handler.annotation.XxlJob;
+import com.group.antian.framework.tenant.core.job.TenantJob;
+import com.group.antian.module.oa.service.meetingroom.OaMeetingRoomBookingService;
+import jakarta.annotation.Resource;
+import org.springframework.stereotype.Component;
+
+/**
+ * OA 会议开始提醒与过期预定处理 Job（兼容入口）
+ *
+ * 按原顺序先取消过期预定，再发送会议提醒。新配置请使用 {@link OaMeetingRoomBookingCancelExpiredJob}、
+ * {@link OaMeetingRoomBookingSendReminderJob}；迁移时先停用本 Job 再启用两个新 Job，新旧 Job 不能同时启用
+ *
+ * @author 安天源码
+ */
+@Component
+public class OaMeetingRoomBookingReminderJob {
+
+    @Resource
+    private OaMeetingRoomBookingService meetingRoomBookingService;
+
+    @XxlJob("oaMeetingRoomBookingReminderJob")
+    @TenantJob
+    public String execute() {
+        int expiredCount = meetingRoomBookingService.cancelExpiredMeetingRoomBookings();
+        int count = meetingRoomBookingService.sendMeetingRoomBookingReminders();
+        return StrUtil.format("取消过期未开始会议 {} 条，发送会议提醒 {} 条", expiredCount, count);
+    }
+
+}

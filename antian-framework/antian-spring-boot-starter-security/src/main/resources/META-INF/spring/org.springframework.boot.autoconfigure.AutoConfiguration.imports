@@ -1,0 +1,5 @@
+com.group.antian.framework.security.config.AntianSecurityRpcAutoConfiguration
+com.group.antian.framework.security.config.AntianSecurityAutoConfiguration
+com.group.antian.framework.security.config.AntianWebSecurityConfigurerAdapter
+com.group.antian.framework.operatelog.config.AntianOperateLogConfiguration
+com.group.antian.framework.operatelog.config.AntianOperateLogRpcAutoConfiguration

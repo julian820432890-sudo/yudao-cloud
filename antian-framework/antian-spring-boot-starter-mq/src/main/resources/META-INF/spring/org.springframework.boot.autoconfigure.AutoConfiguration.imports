@@ -1,0 +1,3 @@
+com.group.antian.framework.mq.redis.config.AntianRedisMQProducerAutoConfiguration
+com.group.antian.framework.mq.redis.config.AntianRedisMQConsumerAutoConfiguration
+com.group.antian.framework.mq.rabbitmq.config.AntianRabbitMQAutoConfiguration

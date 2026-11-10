@@ -1,0 +1,2 @@
+com.group.antian.framework.redis.config.AntianRedisAutoConfiguration
+com.group.antian.framework.redis.config.AntianCacheAutoConfiguration

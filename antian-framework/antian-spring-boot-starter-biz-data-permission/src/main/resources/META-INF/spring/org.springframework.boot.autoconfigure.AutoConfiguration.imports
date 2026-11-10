@@ -1,0 +1,3 @@
+com.group.antian.framework.datapermission.config.AntianDataPermissionAutoConfiguration
+com.group.antian.framework.datapermission.config.AntianDeptDataPermissionAutoConfiguration
+com.group.antian.framework.datapermission.config.AntianDataPermissionRpcAutoConfiguration

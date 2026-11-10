@@ -1,0 +1,8 @@
+com.group.antian.framework.apilog.config.AntianApiLogAutoConfiguration
+com.group.antian.framework.jackson.config.AntianJacksonAutoConfiguration
+com.group.antian.framework.swagger.config.AntianSwaggerAutoConfiguration
+com.group.antian.framework.web.config.AntianWebAutoConfiguration
+com.group.antian.framework.apilog.config.AntianApiLogRpcAutoConfiguration
+com.group.antian.framework.xss.config.AntianXssAutoConfiguration
+com.group.antian.framework.banner.config.AntianBannerAutoConfiguration
+com.group.antian.framework.encrypt.config.AntianApiEncryptAutoConfiguration

@@ -1,0 +1,4 @@
+com.group.antian.framework.idempotent.config.AntianIdempotentConfiguration
+com.group.antian.framework.lock4j.config.AntianLock4jConfiguration
+com.group.antian.framework.ratelimiter.config.AntianRateLimiterConfiguration
+com.group.antian.framework.signature.config.AntianApiSignatureAutoConfiguration

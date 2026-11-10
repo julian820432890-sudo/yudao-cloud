@@ -1,0 +1,3 @@
+com.group.antian.framework.datasource.config.AntianDataSourceAutoConfiguration
+com.group.antian.framework.mybatis.config.AntianMybatisAutoConfiguration
+com.group.antian.framework.translate.config.AntianTranslateAutoConfiguration
